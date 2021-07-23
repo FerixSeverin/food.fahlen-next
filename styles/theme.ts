@@ -7,7 +7,8 @@ const lightTheme: DefaultTheme = {
     medium: '#C2B8A3',
     light: '#E6DDC6',
     flavour: '#B5EAEA',
-  }
+  },
+  widthBreakPoint: 700
 };
 
 const darkTheme: DefaultTheme = {
@@ -17,7 +18,8 @@ const darkTheme: DefaultTheme = {
     medium: '#E6DDC6',
     light: '#C2B8A3',
     flavour: '#B5EAEA',
-  }
+  },
+  widthBreakPoint: 700
 };
 
 export { lightTheme, darkTheme }
