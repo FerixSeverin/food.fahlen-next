@@ -10,6 +10,9 @@ declare module 'styled-components' {
       flavour: string,
       flavour2: string,
     },
+    system: {
+      error: string,
+    },
     widthBreakPoint: number
   }
 }

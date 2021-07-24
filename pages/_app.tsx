@@ -5,6 +5,7 @@ import Head from '../components/head'
 import styled, { ThemeProvider } from 'styled-components'
 import { darkTheme, lightTheme } from '../styles/theme'
 import Link from 'next/link'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 const Background = styled.div`
   background-color: ${props => props.theme.backgroundColor};
@@ -82,6 +83,7 @@ const Navigation = styled.nav`
 `
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const queryClient = new QueryClient();
   const [theme, setTheme] = useState(ThemeStyle.Light);
   const themeToggler = () => {
     if (theme === ThemeStyle.Light) {
@@ -102,27 +104,30 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
   
   return (
-    <ThemeProvider theme={theme === ThemeStyle.Light ? lightTheme : darkTheme}>
-      <Background>
-        <Head />
-        <Wrapper>
-          <Header>
-            <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
-            <Navigation>
-              <Link href='/register' passHref><a>Register</a></Link>
-              <Link href='/login' passHref><a>Login</a></Link>
-            </Navigation>
-            <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
-          </Header>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider theme={theme === ThemeStyle.Light ? lightTheme : darkTheme}>
+        <Background>
+          <Head />
+          <Wrapper>
+            <Header>
+              <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
+              <Navigation>
+                <Link href='/register' passHref><a>Register</a></Link>
+                <Link href='/login' passHref><a>Login</a></Link>
+              </Navigation>
+              <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
+            </Header>
+            
+            <Main>
+              <Component {...pageProps} />
+            </Main>
+          </Wrapper>
           
-          <Main>
-            <Component {...pageProps} />
-          </Main>
-        </Wrapper>
-        
-        
-      </Background>
-    </ThemeProvider>
+          
+        </Background>
+      </ThemeProvider>
+    </QueryClientProvider>
+    
     
   )
 }

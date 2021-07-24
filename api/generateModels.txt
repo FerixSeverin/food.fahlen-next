@@ -1,0 +1,1 @@
+npx swagger-typescript-api -p http://localhost:5000/swagger/v1/swagger.json -o ./api/

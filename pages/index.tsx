@@ -21,10 +21,7 @@ const Landing = styled.div`
   }
 
   .small {
-    
-    
     color: ${props => props.theme.text.heavy};
-    
   }
 `
 

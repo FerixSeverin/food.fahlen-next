@@ -9,6 +9,9 @@ const lightTheme: DefaultTheme = {
     flavour: '#355C7D',
     flavour2: '#F67280',
   },
+  system: {
+    error: '#E23E57',
+  },
   widthBreakPoint: 1000
 };
 
@@ -20,6 +23,9 @@ const darkTheme: DefaultTheme = {
     light: '#222831',
     flavour: '#B5EAEA',
     flavour2: '#FFCFDF',
+  },
+  system: {
+    error: '#E23E57',
   },
   widthBreakPoint: 1000
 };
