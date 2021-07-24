@@ -8,6 +8,7 @@ declare module 'styled-components' {
       medium: string,
       light: string,
       flavour: string,
+      flavour2: string,
     },
     widthBreakPoint: number
   }

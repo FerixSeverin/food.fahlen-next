@@ -52,14 +52,14 @@ const Header = styled.header`
 `
 
 const Main = styled.main`
-
+  flex-grow: 1;
+  display: flex;
 `
 
 const Wrapper = styled.div`
   width: ${props => props.theme.widthBreakPoint}px;
   display: flex;
   flex-direction: column;
-  height: 100%;
 
   @media (max-width: ${props => props.theme.widthBreakPoint}px) {
     width: 100%;
@@ -70,13 +70,14 @@ const Wrapper = styled.div`
 const Navigation = styled.nav`
   display: flex;
   justify-content: flex-start;
-  margin-left: 40px;
+  margin-left: 20px;
   align-items: center;
   flex-grow: 1;
   a {
     color: ${props => props.theme.text.heavy};
     font-size: 22px;
     font-weight: 600;
+    margin-left: 40px;
   }
 `
 
@@ -109,6 +110,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
             <Navigation>
               <Link href='/register' passHref><a>Register</a></Link>
+              <Link href='/login' passHref><a>Login</a></Link>
             </Navigation>
             <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
           </Header>
