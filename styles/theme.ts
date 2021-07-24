@@ -1,25 +1,25 @@
 import { DefaultTheme } from 'styled-components';
 
 const lightTheme: DefaultTheme = {
-  backgroundColor: '#FEF7DC',
+  backgroundColor: '#F5F5F5',
   text: {
-    heavy: '#A19882',
+    heavy: '#222831',
     medium: '#C2B8A3',
     light: '#E6DDC6',
-    flavour: '#B5EAEA',
+    flavour: '#355C7D',
   },
-  widthBreakPoint: 700
+  widthBreakPoint: 1000
 };
 
 const darkTheme: DefaultTheme = {
-  backgroundColor: '#A19882',
+  backgroundColor: '#222831',
   text: {
-    heavy: '#FEF7DC',
+    heavy: '#F5F5F5',
     medium: '#E6DDC6',
     light: '#C2B8A3',
     flavour: '#B5EAEA',
   },
-  widthBreakPoint: 700
+  widthBreakPoint: 1000
 };
 
 export { lightTheme, darkTheme }
