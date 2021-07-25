@@ -5,3 +5,11 @@ export const getAllAccounts = async () => {
   }
   return response.clone().json()
 }
+
+export const getAllRecipes = async () => {
+  const response = await fetch(`http://localhost:5000/api/recipe`)
+  if(!response.ok) {
+    throw new Error("Failed to fetch recipes")
+  }
+  return response.clone().json()
+}

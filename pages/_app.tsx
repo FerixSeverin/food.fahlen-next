@@ -6,6 +6,7 @@ import styled, { ThemeProvider } from 'styled-components'
 import { darkTheme, lightTheme } from '../styles/theme'
 import Link from 'next/link'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import Navigation from '../components/navigation'
 
 const Background = styled.div`
   background-color: ${props => props.theme.backgroundColor};
@@ -68,40 +69,60 @@ const Wrapper = styled.div`
   }
 `
 
-const Navigation = styled.nav`
+const Switches = styled.div`
   display: flex;
-  justify-content: flex-start;
-  margin-left: 20px;
   align-items: center;
-  flex-grow: 1;
-  a {
-    color: ${props => props.theme.text.heavy};
-    font-size: 22px;
-    font-weight: 600;
-    margin-left: 40px;
-  }
+`
+
+interface LoggedInSwitchProps  {
+  isLoggedIn: boolean,
+}
+
+const LoggedInSwitch = styled.button<LoggedInSwitchProps>`
+  border: none;
+  font-size: 14px;
+  margin-right: 20px;
+  color: ${props => props.theme.text.light};
+  background-color: ${props => props.isLoggedIn ? props.theme.text.flavour2 : props.theme.text.flavour};
 `
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
-  const [theme, setTheme] = useState(ThemeStyle.Light);
+  const queryClient = new QueryClient()
+  const [theme, setTheme] = useState(ThemeStyle.Light)
+  const [login, setLogin] = useState(false)
   const themeToggler = () => {
     if (theme === ThemeStyle.Light) {
-      setTheme(ThemeStyle.Dark);
-      localStorage.setItem('darkMode', 'true');
+      setTheme(ThemeStyle.Dark)
+      localStorage.setItem('darkMode', 'true')
     } else {
-      setTheme(ThemeStyle.Light);
-      localStorage.setItem('darkMode', 'false');
+      setTheme(ThemeStyle.Light)
+      localStorage.setItem('darkMode', 'false')
     }
-  };
+  }
+
+  const loggedInToggler = () => {
+    if (login === false) {
+      setLogin(true)
+      localStorage.setItem('login', 'true')
+    } else {
+      setLogin(false)
+      localStorage.setItem('login', 'false')
+    }
+  }
 
   useEffect(() => {
     if (localStorage.getItem('darkMode') === 'true') {
-      setTheme(ThemeStyle.Dark);
+      setTheme(ThemeStyle.Dark)
     } else {
-      setTheme(ThemeStyle.Light);
+      setTheme(ThemeStyle.Light)
     }
-  }, []);
+
+    if (localStorage.getItem('login') === 'true') {
+      setLogin(true)
+    } else {
+      setLogin(false)
+    }
+  }, [])
   
   return (
     <QueryClientProvider client={queryClient}>
@@ -111,11 +132,12 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Wrapper>
             <Header>
               <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
-              <Navigation>
-                <Link href='/register' passHref><a>Register</a></Link>
-                <Link href='/login' passHref><a>Login</a></Link>
-              </Navigation>
-              <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
+              <Navigation loggedIn={login} />
+              <Switches>
+                <LoggedInSwitch isLoggedIn={login} onClick={loggedInToggler}>{login === true ? 'User' : 'Guest'}</LoggedInSwitch>
+                <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
+              </Switches>
+              
             </Header>
             
             <Main>

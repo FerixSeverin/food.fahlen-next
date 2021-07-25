@@ -16,7 +16,7 @@ const RegisterIndex: React.FC = () => {
   const queryClient = useQueryClient()
   const { register, handleSubmit, reset } = useForm<AccountCreate>()
   const [passwordRepeat, setPasswordRepeat] = useState<string>()
-  const accountMutation = useMutation<Response, unknown, AccountCreate>(newAccount => axios.post('http://localhost:5000/api/account', newAccount), {
+  const accountMutation = useMutation<Response, unknown, AccountCreate>(body => axios.post('http://localhost:5000/api/account', body), {
     onSuccess: () => {
       queryClient.invalidateQueries('accounts')
       reset({})
@@ -52,7 +52,7 @@ const RegisterIndex: React.FC = () => {
 
         <ul>
           {data?.map((account) => (
-            <li key={account.id}>{ account.firstName }</li>
+            <li key={account.id}>{ account.firstName } {account.id}</li>
           ))}
         </ul>
     </RegisterForm>
