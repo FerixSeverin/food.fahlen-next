@@ -6,6 +6,7 @@ interface IInput {
 //1.5px solid ${props => props.theme.system.error}
 const SimpleInput = styled.input<IInput>`
   border: ${props => props.error ? '1.5px solid ' + props.theme.system.error : 'none' };
+  
 `
 
 const BoxInput = styled.input`
