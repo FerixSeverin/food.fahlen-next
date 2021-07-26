@@ -30,7 +30,7 @@ const CreateIndex: React.FC = () => {
     recipeMutation.mutate(data)
   }
 
-  const { isDirty, isValid } = formState;
+  const { isDirty, isValid } = formState
   
   return (
     <RecipeForm onSubmit={handleSubmit(onSubmit)}>

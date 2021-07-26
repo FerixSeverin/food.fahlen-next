@@ -10,6 +10,10 @@ declare module 'styled-components' {
       flavour: string,
       flavour2: string,
     },
+    form: {
+      default: string,
+      flavour: string,
+    },
     system: {
       error: string,
     },

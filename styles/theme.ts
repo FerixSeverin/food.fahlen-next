@@ -9,6 +9,10 @@ const lightTheme: DefaultTheme = {
     flavour: '#355C7D',
     flavour2: '#F67280',
   },
+  form: {
+    default: '#F9F9F9',
+    flavour: '#F0D9E7',
+  },
   system: {
     error: '#E23E57',
   },
@@ -23,6 +27,10 @@ const darkTheme: DefaultTheme = {
     light: '#222831',
     flavour: '#B5EAEA',
     flavour2: '#FFCFDF',
+  },
+  form: {
+    default: '#F9F9F9',
+    flavour: '#F0D9E7',
   },
   system: {
     error: '#E23E57',

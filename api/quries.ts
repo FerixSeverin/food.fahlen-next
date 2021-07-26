@@ -22,10 +22,18 @@ export const getRecipe = async (id: Number) => {
   return response.clone().json()
 }
 
-export const getRecipeGroups = async (id: Number) => {
-  const response = await fetch(`http://localhost:5000/api/recipegroup/${id}`)
+export const getRecipeGroupsByAccountId = async (id: Number) => {
+  const response = await fetch(`http://localhost:5000/api/recipegroup/recipe/${id}`)
   if(!response.ok) {
     throw new Error("Failed to fetch recipe groups")
+  }
+  return response.clone().json()
+}
+
+export const getAllMeasures = async () => {
+  const response = await fetch(`http://localhost:5000/api/measure`)
+  if(!response.ok) {
+    throw new Error("Failed to fetch measures")
   }
   return response.clone().json()
 }
