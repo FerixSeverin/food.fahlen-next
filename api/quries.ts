@@ -1,47 +1,47 @@
 export const getAllAccounts = async () => {
-  const response = await fetch(`http://localhost:5000/api/account`)
+  const response = await fetch(`http://localhost:5000/api/account`);
   if(!response.ok) {
-    throw new Error("Failed to fetch accounts")
+    throw new Error("Failed to fetch accounts");
   }
-  return response.clone().json()
-}
+  return response.clone().json();
+};
 
 export const getAllRecipes = async () => {
-  const response = await fetch(`http://localhost:5000/api/recipe`)
+  const response = await fetch(`http://localhost:5000/api/recipe`);
   if(!response.ok) {
-    throw new Error("Failed to fetch recipes")
+    throw new Error("Failed to fetch recipes");
   }
-  return response.clone().json()
-}
+  return response.clone().json();
+};
 
-export const getRecipe = async (id: Number) => {
-  const response = await fetch(`http://localhost:5000/api/recipe/${id}`)
+export const getRecipe = async (id: number) => {
+  const response = await fetch(`http://localhost:5000/api/recipe/${id}`);
   if(!response.ok) {
-    throw new Error("Failed to fetch recipe")
+    throw new Error("Failed to fetch recipe");
   }
-  return response.clone().json()
-}
+  return response.clone().json();
+};
 
-export const getRecipeGroupsByAccountId = async (id: Number) => {
-  const response = await fetch(`http://localhost:5000/api/recipegroup/recipe/${id}`)
+export const getRecipeGroupsByAccountId = async (id: number) => {
+  const response = await fetch(`http://localhost:5000/api/recipegroup/recipe/${id}`);
   if(!response.ok) {
-    throw new Error("Failed to fetch recipe groups")
+    throw new Error("Failed to fetch recipe groups");
   }
-  return response.clone().json()
-}
+  return response.clone().json();
+};
 
 export const getAllMeasures = async () => {
-  const response = await fetch(`http://localhost:5000/api/measure`)
+  const response = await fetch(`http://localhost:5000/api/measure`);
   if(!response.ok) {
-    throw new Error("Failed to fetch measures")
+    throw new Error("Failed to fetch measures");
   }
-  return response.clone().json()
-}
+  return response.clone().json();
+};
 
-export const getRecipeEditById = async (id: Number) => {
-  const response = await fetch(`http://localhost:5000/api/recipe/all/${id}`)
+export const getRecipeEditById = async (id: number) => {
+  const response = await fetch(`http://localhost:5000/api/recipe/all/${id}`);
   if(!response.ok) {
-    throw new Error("Failed to fetch recipe")
+    throw new Error("Failed to fetch recipe");
   }
-  return response.clone().json()
-}
+  return response.clone().json();
+};

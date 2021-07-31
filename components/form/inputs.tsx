@@ -11,10 +11,10 @@ const SimpleInput = styled.input<IInput>`
   width: ${props => props.small ? '64px' : '154px'};
   background-color: ${props => props.small ? props.theme.form.flavour : props.theme.form.default};
   text-align: ${props => [props.small ? 'center' : 'left']};
-`
+`;
 
 const BoxInput = styled.input`
   border: none;
-`
+`;
 
-export { SimpleInput, BoxInput }
+export { SimpleInput, BoxInput };

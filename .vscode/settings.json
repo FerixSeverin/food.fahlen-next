@@ -3,5 +3,6 @@
     "typescript": "typescriptreact",
     "javascript": "javascriptreact",
     },
-    "emmet.triggerExpansionOnTab": true
+    "emmet.triggerExpansionOnTab": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
 }
