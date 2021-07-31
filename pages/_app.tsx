@@ -146,15 +146,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <Component {...pageProps} />
               </Main>
             </Wrapper>
-            
-            
           </Background>
         </ChakraProvider>
       </ThemeProvider>
     </QueryClientProvider>
-    
-    
   );
 }
 export default MyApp;
-

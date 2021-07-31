@@ -12,6 +12,10 @@
     "jsx-quotes": [2, "prefer-single"],
     "semi": [2, "always"],
     "eol-last": [1, "always"],
-    "quotes": [2, "single", { "avoidEscape": true }]
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "react/self-closing-comp": ["error", {
+      "component": true,
+      "html": true
+    }]
   }
 }
