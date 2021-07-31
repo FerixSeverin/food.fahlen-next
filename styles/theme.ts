@@ -38,4 +38,4 @@ const darkTheme: DefaultTheme = {
   widthBreakPoint: 1000
 };
 
-export { lightTheme, darkTheme }
+export { lightTheme, darkTheme };

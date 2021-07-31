@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction } from "react"
-import { Control, Controller } from "react-hook-form"
-import styled from "styled-components"
-import { IngredientCreate, MeasureRead } from "../../api/models"
+import { Dispatch, SetStateAction } from 'react';
+import { Control, Controller } from 'react-hook-form';
+import styled from 'styled-components';
+import { IngredientCreate, MeasureRead } from '../../api/models';
 
 interface IDropDown {
   measures?: MeasureRead[] | undefined | null
@@ -30,7 +30,8 @@ const Base = styled(Controller)`
     display: block;
     
   }
-`
+`;
+
 {/* <span>{props.selectedMeasure?.name}</span> */}
 const SimpleDropDown: React.FC<IDropDown> = ( props ) => {
   return (
@@ -38,12 +39,12 @@ const SimpleDropDown: React.FC<IDropDown> = ( props ) => {
     control={props.control}
     render={
       ({ field }) => (<select {...field}>{props.measures?.map((measure) => (
-        <option onClick={() => props.setSelectedMeasure(measure)} value={measure.id} className="content">{ measure.name }</option>
+        <option key={ measure.id } onClick={() => props.setSelectedMeasure(measure)} value={measure.id} className='content'>{ measure.name }</option>
       ))}</select>)
     }
     name='measureId'/>
-  )
-}
+  );
+};
 
 
-export default SimpleDropDown
+export default SimpleDropDown;

@@ -1,4 +1,4 @@
-import { useTheme } from "styled-components";
+import { useTheme } from 'styled-components';
 import NextHead from 'next/head';
 
 const Head: React.FC = () => {

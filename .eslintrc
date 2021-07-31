@@ -11,6 +11,7 @@
     "@typescript-eslint/no-explicit-any": "error",
     "jsx-quotes": [2, "prefer-single"],
     "semi": [2, "always"],
-    "eol-last": [1, "always"]
+    "eol-last": [1, "always"],
+    "quotes": [2, "single", { "avoidEscape": true }]
   }
 }
