@@ -3,14 +3,14 @@ import React, { useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useMutation, useQueryClient } from 'react-query'
 import styled from 'styled-components'
-import { IngredientCreate, IngredientRead, MeasureRead, RecipeGroupRead } from '../api/models'
+import { IngredientCreate, IngredientRead, MeasureRead, RecipeGroupReadWithIngredientRead } from '../api/models'
 import SimpleDropdown from './form/dropdown'
 import { SimpleInput } from './form/inputs'
 import { InputLabel } from './form/labels'
 
 interface Props {
-  group: RecipeGroupRead
-  measures?: MeasureRead[]
+  group: RecipeGroupReadWithIngredientRead
+  measures?: MeasureRead[] | undefined | null
 }
 
 const GroupName = styled.ul`
@@ -26,9 +26,11 @@ const AddNewIngredientForm = styled.form`
 
 const RecipeGroup: React.FC<Props> = (props) => {
   const queryClient = useQueryClient()
-  const { register, handleSubmit, reset } = useForm<IngredientCreate>({
+  const [selectedMeasure, setSelectedMeasure] = useState<MeasureRead>()
+  const { register, handleSubmit, reset, control } = useForm<IngredientCreate>({
     defaultValues: {
-      recipeGroupId: props.group.id
+      recipeGroupId: props.group.id,
+      measureId: selectedMeasure?.id
     }
   })
   const ingredientMutation = useMutation<Response, unknown, IngredientCreate>(body => axios.post('http://localhost:5000/api/ingredient', body), {
@@ -43,7 +45,7 @@ const RecipeGroup: React.FC<Props> = (props) => {
     ingredientMutation.mutate(data)
   }
 
-  const [selectedMeasure, setSelectedMeasure] = useState<MeasureRead>()
+  
 
   return (
     <GroupName>
@@ -55,8 +57,8 @@ const RecipeGroup: React.FC<Props> = (props) => {
         <InputLabel small>Add ingredient (name, amount, measure)</InputLabel>
         <div className="inputs">
           <SimpleInput {...register('name')}></SimpleInput>
-          <SimpleInput small {...register('amount')}></SimpleInput>
-          <SimpleDropdown {...register('measureId')} measures={props.measures} selectedMeasure={selectedMeasure} setSelectedMeasure={setSelectedMeasure}></SimpleDropdown>
+          <SimpleInput type='number' small {...register('amount')}></SimpleInput>
+          <SimpleDropdown control={control} {...register('measureId')} measures={props.measures} selectedMeasure={selectedMeasure} setSelectedMeasure={setSelectedMeasure}></SimpleDropdown>
           <input type="submit" value="+" />
         </div>
         

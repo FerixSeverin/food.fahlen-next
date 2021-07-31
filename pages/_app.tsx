@@ -7,6 +7,7 @@ import { darkTheme, lightTheme } from '../styles/theme'
 import Link from 'next/link'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import Navigation from '../components/navigation'
+import { ChakraProvider } from '@chakra-ui/react'
 
 const Background = styled.div`
   background-color: ${props => props.theme.backgroundColor};
@@ -127,26 +128,28 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme === ThemeStyle.Light ? lightTheme : darkTheme}>
-        <Background>
-          <Head />
-          <Wrapper>
-            <Header>
-              <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
-              <Navigation loggedIn={login} />
-              <Switches>
-                <LoggedInSwitch isLoggedIn={login} onClick={loggedInToggler}>{login === true ? 'User' : 'Guest'}</LoggedInSwitch>
-                <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
-              </Switches>
+        <ChakraProvider>
+          <Background>
+            <Head />
+            <Wrapper>
+              <Header>
+                <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
+                <Navigation loggedIn={login} />
+                <Switches>
+                  <LoggedInSwitch isLoggedIn={login} onClick={loggedInToggler}>{login === true ? 'User' : 'Guest'}</LoggedInSwitch>
+                  <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
+                </Switches>
+                
+              </Header>
               
-            </Header>
+              <Main>
+                <Component {...pageProps} />
+              </Main>
+            </Wrapper>
             
-            <Main>
-              <Component {...pageProps} />
-            </Main>
-          </Wrapper>
-          
-          
-        </Background>
+            
+          </Background>
+        </ChakraProvider>
       </ThemeProvider>
     </QueryClientProvider>
     

@@ -47,6 +47,75 @@ export interface IngredientRead {
   measure?: Measure;
 }
 
+export interface IngredientCreate {
+  name: string;
+
+  /** @format int32 */
+  amount: number;
+
+  /** @format int32 */
+  measureId: number;
+
+  /** @format int32 */
+  recipeGroupId: number;
+}
+
+export interface MeasureRead {
+  /** @format int32 */
+  id?: number;
+  name?: string | null;
+  symbol?: string | null;
+}
+
+export interface MeasureCreate {
+  name: string;
+  symbol: string;
+}
+
+export interface RecipeRead {
+  /** @format int32 */
+  id?: number;
+  name?: string | null;
+  favorite?: boolean;
+  description?: string | null;
+}
+
+export interface RecipeCreate {
+  name: string;
+  favorite: boolean;
+  description?: string | null;
+
+  /** @format int32 */
+  accountId: number;
+}
+
+export interface IngredientReadWithMeasure {
+  /** @format int32 */
+  id?: number;
+  name?: string | null;
+
+  /** @format int32 */
+  amount?: number;
+  measure?: MeasureRead;
+}
+
+export interface RecipeGroupReadWithIngredientRead {
+  /** @format int32 */
+  id?: number;
+  name?: string | null;
+  ingredients?: IngredientReadWithMeasure[] | null;
+}
+
+export interface RecipeReadWithRecipeGroups {
+  /** @format int32 */
+  id?: number;
+  name?: string | null;
+  favorite?: boolean;
+  description?: string | null;
+  recipeGroups?: RecipeGroupReadWithIngredientRead[] | null;
+  measures?: MeasureRead[] | null;
+}
+
 export interface Account {
   /** @format date-time */
   createdDate: string;
@@ -82,6 +151,23 @@ export interface Recipe {
   recipeGroups?: RecipeGroup[] | null;
 }
 
+export interface RecipeGroup {
+  /** @format date-time */
+  createdDate: string;
+
+  /** @format date-time */
+  updatedDate: string;
+
+  /** @format int32 */
+  id?: number;
+  name: string;
+
+  /** @format int32 */
+  recipeId: number;
+  recipe?: Recipe;
+  ingredients?: Ingredient[] | null;
+}
+
 export interface Ingredient {
   /** @format date-time */
   createdDate: string;
@@ -105,67 +191,6 @@ export interface Ingredient {
   recipeGroup?: RecipeGroup;
 }
 
-export interface RecipeGroup {
-  /** @format date-time */
-  createdDate: string;
-
-  /** @format date-time */
-  updatedDate: string;
-
-  /** @format int32 */
-  id?: number;
-  name: string;
-
-  /** @format int32 */
-  recipeId: number;
-  recipe?: Recipe;
-  ingredients?: Ingredient[] | null;
-}
-
-export interface IngredientCreate {
-  name: string;
-
-  /** @format int32 */
-  amount: number;
-
-  /** @format int32 */
-  measureId: number;
-  measure?: Measure;
-
-  /** @format int32 */
-  recipeGroupId: number;
-  recipeGroup?: RecipeGroup;
-}
-
-export interface RecipeRead {
-  /** @format int32 */
-  id?: number;
-  name?: string | null;
-  favorite?: boolean;
-  description?: string | null;
-}
-
-export interface MeasureRead {
-  /** @format int32 */
-  id?: number;
-  name?: string | null;
-  symbol?: string | null;
-}
-
-export interface MeasureCreate {
-  name: string;
-  symbol: string;
-}
-
-export interface RecipeCreate {
-  name: string;
-  favorite: boolean;
-  description?: string | null;
-
-  /** @format int32 */
-  accountId: number;
-}
-
 export interface RecipeGroupRead {
   /** @format int32 */
   id?: number;
@@ -178,7 +203,6 @@ export interface RecipeGroupCreate {
 
   /** @format int32 */
   recipeId: number;
-  recipe?: Recipe;
 }
 
 export type QueryParamsType = Record<string | number, any>;
@@ -482,7 +506,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request GET:/api/ingredient/{id}
      */
     getIngredientById: (id: number, params: RequestParams = {}) =>
-      this.request<RecipeRead, any>({
+      this.request<IngredientRead, any>({
         path: `/api/ingredient/${id}`,
         method: "GET",
         format: "json",
@@ -628,6 +652,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Recipe
+     * @name GetRecipeEditById
+     * @request GET:/api/recipe/all/{id}
+     */
+    getRecipeEditById: (id: number, params: RequestParams = {}) =>
+      this.request<RecipeReadWithRecipeGroups, any>({
+        path: `/api/recipe/all/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags RecipeGroup
      * @name RecipegroupList
      * @request GET:/api/recipegroup
@@ -683,6 +722,21 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       this.request<void, any>({
         path: `/api/recipegroup/${id}`,
         method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags RecipeGroup
+     * @name GetRecipeGroupsByRecipeId
+     * @request GET:/api/recipegroup/recipe/{id}
+     */
+    getRecipeGroupsByRecipeId: (id: number, params: RequestParams = {}) =>
+      this.request<RecipeGroupRead[], any>({
+        path: `/api/recipegroup/recipe/${id}`,
+        method: "GET",
+        format: "json",
         ...params,
       }),
   };

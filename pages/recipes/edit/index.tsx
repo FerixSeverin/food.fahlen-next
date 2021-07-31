@@ -1,14 +1,69 @@
-import React, { useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { useRouter } from 'next/dist/client/router'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { MeasureRead, RecipeGroupCreate, RecipeGroupRead, RecipeRead } from '../../../api/models'
-import { getAllMeasures, getRecipe, getRecipeGroupsByAccountId } from '../../../api/quries'
+import { MeasureRead, RecipeGroupCreate, RecipeGroupRead, RecipeRead, RecipeReadWithRecipeGroups } from '../../../api/models'
+import { getAllMeasures, getRecipe, getRecipeEditById, getRecipeGroupsByAccountId } from '../../../api/quries'
 import styled from 'styled-components'
 import RecipeGroup from '../../../components/recipeGroup'
 import { InputLabel } from '../../../components/form/labels'
 import { SimpleInput } from '../../../components/form/inputs'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import axios from 'axios'
+import { Spinner } from '@chakra-ui/react'
+
+interface IEditor {
+  data: RecipeReadWithRecipeGroups
+}
+
+const Editor: React.FC<IEditor> = (props) => {
+  let favorite = props.data.favorite
+  const favoriteToggler = () => {
+    if (favorite === false) {
+      favorite = true
+    } else {
+      favorite = false
+    }
+  }
+
+  const { register, handleSubmit, reset, formState } = useForm<RecipeGroupCreate>({
+    defaultValues: {
+      recipeId: props.data.id
+    }
+  })
+
+  const queryClient = useQueryClient()
+  const recipeGroupMutation = useMutation<Response, unknown, RecipeGroupCreate>(body => axios.post('http://localhost:5000/api/recipegroup', body), {
+    onSuccess: () => {
+      reset({})
+      queryClient.invalidateQueries('recipeGroups')
+    }
+  })
+
+  const onSubmit: SubmitHandler<RecipeGroupCreate> = data => {
+    console.log(data)
+    recipeGroupMutation.mutate(data)
+  }
+
+  const { isDirty, isValid } = formState
+
+  return <Container>
+    <div id='name'>
+      {props.data?.name}
+      <button onClick={() => favoriteToggler()}>{favorite === true ? '❤️' : '🤍'}</button>
+    </div>
+    <div id='description'>{props.data!.description}</div>
+    <div id='groups'>
+        {props.data!.recipeGroups?.map((group) => (
+          <RecipeGroup group={group} key={group!.id} measures={props.data!.measures} />
+        ))}
+    </div>
+    {/* <NewRecipeGroupForm onSubmit={handleSubmit(onSubmit)}>
+      <InputLabel>New group</InputLabel>
+      <SimpleInput {...register('name')}/>
+      <input type="submit" disabled={!isDirty || !isValid}/>
+    </NewRecipeGroupForm> */}
+  </ Container>
+}
 
 const Container = styled.div`
   margin-top: 40px;
@@ -44,64 +99,25 @@ const NewRecipeGroupForm = styled.form`
 
 `
 
-const EditIndex: React.FC = () => {
-  const router = useRouter()
-  const { id } = router.query
-  if (id === undefined) return <>No Id</>
-  const queryClient = useQueryClient()
-  const { data: recipeData, isSuccess } = useQuery<RecipeRead, Error>('recipe', () => getRecipe(+id))
-  const [favorite, setFavorite] = useState(recipeData?.favorite ? true : false)
-  const favoriteToggler = () => {
-    if (favorite === false) {
-      setFavorite(true)
-    } else {
-      setFavorite(false)
-    }
-  }
-
-  const { data: recipeGroupData } = useQuery<RecipeGroupRead[], Error>('recipeGroups', () => getRecipeGroupsByAccountId(+id))
-  const { data: measureData } = useQuery<MeasureRead[], Error>('measures', () => getAllMeasures())
-
-  const { register, handleSubmit, reset, formState } = useForm<RecipeGroupCreate>({
-    defaultValues: {
-      recipeId: +id
-    }
-  })
-  const recipeGroupMutation = useMutation<Response, unknown, RecipeGroupCreate>(body => axios.post('http://localhost:5000/api/recipegroup', body), {
-    onSuccess: () => {
-      reset({})
-      queryClient.invalidateQueries('recipeGroups')
-    }
-  })
-
-  const onSubmit: SubmitHandler<RecipeGroupCreate> = data => {
-    console.log(data)
-    recipeGroupMutation.mutate(data)
-  }
-
-  const { isDirty, isValid } = formState
-
-  return (
-    <Container>
-    
-      <div id='name'>
-        {recipeData?.name}
-        <button onClick={favoriteToggler}>{favorite === true ? '❤️' : '🤍'}</button>
-      </div>
-      <div id='description'>{recipeData?.description}</div>
-      <div id='groups'>
-        {recipeGroupData?.map((group) => (
-          <RecipeGroup group={group} measures={measureData} />
-        ))}
-      </div>
-      <NewRecipeGroupForm onSubmit={handleSubmit(onSubmit)}>
-        <InputLabel>New group</InputLabel>
-        <SimpleInput {...register('name')}/>
-        <input type="submit" disabled={!isDirty || !isValid}/>
-      </NewRecipeGroupForm>
-      
-    </Container>
-  )
+interface IRecipeEditor {
+  id: Number
 }
 
-export default EditIndex
+const Recipe: React.FC<IRecipeEditor> = ( props ) => {
+  const { data, isLoading, isError, error } = useQuery<RecipeReadWithRecipeGroups, Error>('recipeEdit', () => getRecipeEditById(props.id))
+  
+  if (isError) return <>{ error }</>
+  if (isLoading) return <Spinner />
+  return <Editor data={ data! } />
+}
+
+const Index = () => {
+  const router = useRouter()
+  const { id } = router.query
+  
+  if (id === undefined) return <>No Id</>
+
+  return <Recipe id={ +id } />
+}
+
+export default Index
