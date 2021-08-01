@@ -9,8 +9,9 @@ interface IInput {
 const SimpleInput = styled.input<IInput>`
   border: ${props => props.error ? '1.5px solid ' + props.theme.system.error : 'none' };
   width: ${props => props.small ? '64px' : '154px'};
-  background-color: ${props => props.small ? props.theme.form.flavour : props.theme.form.default};
+  background-color: ${props => props.theme.form.default};
   text-align: ${props => [props.small ? 'center' : 'left']};
+  padding-left: ${props => props.small ? '0' : '10px'};
 `;
 
 const BoxInput = styled.input`

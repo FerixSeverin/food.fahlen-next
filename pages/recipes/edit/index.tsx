@@ -15,6 +15,20 @@ interface IEditor {
   data: RecipeReadWithRecipeGroups
 }
 
+const NewRecipeGroupForm = styled.form`
+  margin-bottom: 100px;
+  line-height: 2;
+  
+  #submit {
+    background-color: ${props => props.theme.text.flavour};
+    color: ${props => props.theme.text.light};
+    font-weight: 600;
+    margin-left: 10px;
+    width: 100px;
+    height: inherit;
+  }
+`;
+
 const Editor: React.FC<IEditor> = (props) => {
   const [favorite, setFavorite] = useState(props.data.favorite);
   const favoriteToggler = () => {
@@ -55,13 +69,13 @@ const Editor: React.FC<IEditor> = (props) => {
     <div id='description'>{props.data.description}</div>
     <div id='groups'>
       {props.data.recipeGroups?.map((group) => (
-        <RecipeGroup group={group} key={group.id} measures={props.data.measures} />
+        <RecipeGroup group={group} key={group.id} measures={props.data.measures!} />
       ))}
     </div>
     <NewRecipeGroupForm onSubmit={handleSubmit(onSubmit)}>
       <InputLabel>New group</InputLabel>
       <SimpleInput {...register('name')}/>
-      <input type='submit' disabled={!isDirty || !isValid}/>
+      <input id='submit' value='+' type='submit' disabled={!isDirty || !isValid}/>
     </NewRecipeGroupForm>
   </ Container>;
 };
@@ -96,9 +110,7 @@ const Container = styled.div`
   }
 `;
 
-const NewRecipeGroupForm = styled.form`
 
-`;
 
 interface IRecipeEditor {
   id: number

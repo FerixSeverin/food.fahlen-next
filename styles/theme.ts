@@ -4,13 +4,13 @@ const lightTheme: DefaultTheme = {
   backgroundColor: '#F5F5F5',
   text: {
     heavy: '#222831',
-    medium: '#C9D6DF',
+    medium: '#595260',
     light: '#F5F5F5',
     flavour: '#355C7D',
     flavour2: '#F67280',
   },
   form: {
-    default: '#F9F9F9',
+    default: '#BEDCFA',
     flavour: '#F0D9E7',
   },
   system: {
@@ -23,13 +23,13 @@ const darkTheme: DefaultTheme = {
   backgroundColor: '#222831',
   text: {
     heavy: '#F5F5F5',
-    medium: '#52616B',
+    medium: '#B2B1B9',
     light: '#222831',
     flavour: '#B5EAEA',
     flavour2: '#FFCFDF',
   },
   form: {
-    default: '#F9F9F9',
+    default: '#BEDCFA',
     flavour: '#F0D9E7',
   },
   system: {
