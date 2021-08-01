@@ -21,6 +21,10 @@ const Container = styled.ul`
     margin-left: 20px;
     font-size: 26px;
   }
+  
+  .recipe {
+    display: flex;
+  }
 `;
 
 const RecipesIndex: React.FC = () => {
@@ -32,9 +36,10 @@ const RecipesIndex: React.FC = () => {
       <div id='name'>
         Recipes  
       </ div>
-      {data!.map((recipe) => (
-        <Link href={`/recipes/edit?id=${recipe.id}`} key={recipe.id}>{recipe.description != null ? <a title={recipe.description}>{recipe.name}</a> : recipe.name}</Link>
-      ))}
+      {data!.map((recipe) => (<div key={recipe.id} className='recipe'>
+        <Link href={`/recipes/${recipe.id}`} key={recipe.id}>{recipe.description != null ? <a title={recipe.description}>{recipe.name}</a> : recipe.name}</Link>
+        <Link href={`/recipes/edit?id=${recipe.id}`} key={recipe.id}>🖋️</Link>
+      </ div>))}
     </Container>
   );
 };

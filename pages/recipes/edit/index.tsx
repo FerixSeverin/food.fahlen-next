@@ -15,8 +15,54 @@ interface IEditor {
   data: RecipeReadWithRecipeGroups
 }
 
-const NewRecipeGroupForm = styled.form`
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   margin-bottom: 100px;
+  justify-content: space-between;
+
+  .part {
+    margin-top: 40px;
+    flex-direction: column;
+    align-items: center;
+    #name {
+      color: ${props => props.theme.text.heavy};
+      font-size: 62px;
+      font-weight: 600;
+      line-height: 1.1;
+      button {
+        border: none;
+        margin-left: 20px;
+        font-size: 40px;
+        cursor: pointer;
+        background-color: rgba(0, 0, 0, 0); 
+        padding: 0;
+      }
+    }
+
+    #description {
+      color: ${props => props.theme.text.flavour};
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    #groups {
+      margin-top: 20px;
+    }
+
+    #instructionTitle {
+      color: ${props => props.theme.text.flavour2};
+      font-weight: 600;
+      font-size: 32px;
+      align-self: flex-end;
+      width: 400px;
+    }
+  }
+  
+`;
+
+const NewRecipeGroupForm = styled.form`
+  
   line-height: 2;
   
   #submit {
@@ -62,53 +108,35 @@ const Editor: React.FC<IEditor> = (props) => {
   const { isDirty, isValid } = formState;
 
   return <Container>
-    <div id='name'>
-      {props.data?.name}
-      <button onClick={favoriteToggler}>{favorite === true ? '❤️' : '🤍'}</button>
+    <div className='part'>
+      <div id='name'>
+        {props.data?.name}
+        <button onClick={favoriteToggler}>{favorite === true ? '❤️' : '🤍'}</button>
+      </div>
+      <div id='description'>{props.data.description}</div>
+      <div id='groups'>
+        {props.data.recipeGroups?.map((group) => (
+          <RecipeGroup group={group} key={group.id} measures={props.data.measures!} />
+        ))}
+      </div>
+      <NewRecipeGroupForm onSubmit={handleSubmit(onSubmit)}>
+        <InputLabel>New group</InputLabel>
+        <SimpleInput {...register('name')}/>
+        <input id='submit' value='+' type='submit' disabled={!isDirty || !isValid}/>
+      </NewRecipeGroupForm>
     </div>
-    <div id='description'>{props.data.description}</div>
-    <div id='groups'>
-      {props.data.recipeGroups?.map((group) => (
-        <RecipeGroup group={group} key={group.id} measures={props.data.measures!} />
-      ))}
+    <div className='part'>
+      <div id='instructionTitle'>
+        Instructions
+      </div>
+      <div id='instructions'>
+        I
+      </div>
     </div>
-    <NewRecipeGroupForm onSubmit={handleSubmit(onSubmit)}>
-      <InputLabel>New group</InputLabel>
-      <SimpleInput {...register('name')}/>
-      <input id='submit' value='+' type='submit' disabled={!isDirty || !isValid}/>
-    </NewRecipeGroupForm>
   </ Container>;
 };
 
-const Container = styled.div`
-  margin-top: 40px;
-  flex-direction: column;
-  align-items: center;
-  #name {
-    color: ${props => props.theme.text.heavy};
-    font-size: 62px;
-    font-weight: 600;
-    line-height: 1.1;
-    button {
-      border: none;
-      margin-left: 20px;
-      font-size: 40px;
-      cursor: pointer;
-      background-color: rgba(0, 0, 0, 0); 
-      padding: 0;
-    }
-  }
 
-  #description {
-    color: ${props => props.theme.text.flavour};
-    font-size: 24px;
-    line-height: 1;
-  }
-
-  #groups {
-    margin-top: 20px;
-  }
-`;
 
 
 

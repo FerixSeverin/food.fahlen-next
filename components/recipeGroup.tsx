@@ -31,15 +31,32 @@ const Ingredients = styled.div`
     list-style: none;
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
+    align-items: flex-end;
     color: ${props => props.theme.text.medium};
     font-weight: 600;
   }
 
-  .amountMeasure {
+  .leftAlign {
     display: flex;
     width: 80px;
     justify-content: space-between;
+    align-self: flex-start;
     font-weight: 400;
+  }
+
+  .rightAlign {
+    display: flex;
+    justify-content: space-between;
+    align-self: flex-end;
+    .name {
+      margin-right: 20px;
+    }
+
+    .delete {
+      color: ${props => props.theme.system.error};
+      font-weight: 600;
+    }
   }
 `;
 
@@ -97,17 +114,28 @@ const RecipeGroup: React.FC<Props> = (props) => {
     ingredientMutation.mutate(data);
   };
 
+  const deleteIngredientMutation = useMutation<Response, unknown, number>(id => axios.delete(`http://localhost:5000/api/ingredient/${id}`), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('recipeGroups');
+      queryClient.invalidateQueries('recipeEdit');
+    }
+  });
+
   return (
     <Container>
       <div className='groupName'>{props.group.name}</div>
       <Ingredients>
         {props.group.ingredients?.map((ingredient) => (
           <li className='ingredient' key={ ingredient.id }>
-            {ingredient.amount != 0 && ingredient.measure?.symbol != 'Any' && <div className='amountMeasure'>
-              <div className='amount'>{ ingredient.amount === 0 ? '' : ingredient.amount + ' '}</div>           
-              <div className='measure'>{ ingredient.measure?.symbol === 'Any' ? '' : ingredient.measure?.symbol }</div>
-            </div>}
-            <div className='name'>{ ingredient.name }</div>
+            <div className='leftAlign'>
+              {ingredient.amount != 0 && <div className='amount'>{ ingredient.amount + ' '}</div> }
+              {ingredient.measure?.symbol != 'Any' && <div className='measure'>{ ingredient.measure?.symbol }</div>}
+            </div>
+            <div className='rightAlign'>
+              <div className='name'>{ ingredient.name }</div>
+              <button onClick={() => {deleteIngredientMutation.mutate(ingredient.id!);}} className='delete'>X</button>
+            </div>
+            
           </li>
         ))}
       </Ingredients>
