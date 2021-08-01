@@ -49,16 +49,31 @@ const Group: React.FC<IGroup> = (props) => {
 };
 
 const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
   #name {
     font-size: 40px;
     font-weight: 600;
     color: ${props => props.theme.text.heavy};
-    margin-top: 40px;
   }
 
   #description {
     font-size: 20px;
     color: ${props => props.theme.text.flavour};
+  }
+
+  .part {
+    margin-top: 40px;
+
+    #instructionTitle {
+      color: ${props => props.theme.text.flavour2};
+      font-weight: 600;
+      font-size: 32px;
+      align-self: flex-end;
+      width: 400px;
+    }
   }
 `;
 
@@ -68,11 +83,19 @@ interface IRecipeViewer {
 
 const RecipeViewer: React.FC<IRecipeViewer> = (props) => {
   return <Container>
-    <div id='name'>{props.recipe.name}</div>
-    <div id='description'>{props.recipe.description}</div>
-    {props.recipe.recipeGroups?.map((group) => (
-      <Group key={group.id} recipeGroup={group} />
-    ))}
+    <div className='part'>
+      <div id='name'>{props.recipe.name}</div>
+      <div id='description'>{props.recipe.description}</div>
+      {props.recipe.recipeGroups?.map((group) => (
+        <Group key={group.id} recipeGroup={group} />
+      ))}
+    </div>
+    <div className='part'>
+      <div id='instructionTitle'>
+        Instructions
+      </div>
+    </div>
+    
   </Container>;
 };
 

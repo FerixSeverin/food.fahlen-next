@@ -20,6 +20,7 @@ const Container = styled.ul`
   a {
     margin-left: 20px;
     font-size: 26px;
+    color: ${props => props.theme.text.heavy};
   }
   
   .recipe {

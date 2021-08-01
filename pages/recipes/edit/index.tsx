@@ -18,6 +18,7 @@ interface IEditor {
 const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
   margin-bottom: 100px;
   justify-content: space-between;
 
