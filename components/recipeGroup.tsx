@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { IngredientCreate, MeasureRead, RecipeGroupReadWithIngredientRead } from '../api/models';
+import { Divider } from './divider';
 import { SimpleInput } from './form/inputs';
 import { InputLabel } from './form/labels';
 
@@ -13,11 +14,24 @@ interface Props {
 }
 
 const Container = styled.div`
-  .groupName {
-    color: ${props => props.theme.text.flavour2};
-    font-size: 20px;
-    font-weight: 600;
+  #upper {
+    display: flex;
+
+    .groupName {
+      color: ${props => props.theme.text.flavour2};
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .delete {
+      color: ${props => props.theme.system.error};
+      font-weight: 600;
+      line-height: 1;
+      font-size: 20px;
+      margin-left: 10px;
+    }
   }
+  
 `;
 
 const Ingredients = styled.div`
@@ -80,15 +94,9 @@ const AddNewIngredientForm = styled.form`
       color: ${props => props.theme.text.light};
       margin-left: 10px;
       font-weight: 600;
+      cursor: pointer;
     }
   }
-`;
-
-const Divider = styled.div`
-  width: 100%;
-  height: 5px;
-  background-color: ${props => props.theme.text.flavour};
-  margin-bottom: 36px;
 `;
 
 const RecipeGroup: React.FC<Props> = (props) => {
@@ -119,9 +127,19 @@ const RecipeGroup: React.FC<Props> = (props) => {
     }
   });
 
+  const deleteRecipeGroupMutation = useMutation<Response, unknown, number>(id => axios.delete(`http://localhost:5000/api/recipegroup/${id}`), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('recipeGroups');
+      queryClient.invalidateQueries('recipeEdit');
+    }
+  });
+
   return (
     <Container>
-      <div className='groupName'>{props.group.name}</div>
+      <div id='upper'>
+        <div className='groupName'>{props.group.name}</div>
+        <button onClick={() => deleteRecipeGroupMutation.mutate(props.group.id!)} className='delete'>X</button>
+      </div>
       <Ingredients>
         {props.group.ingredients?.map((ingredient) => (
           <li className='ingredient' key={ ingredient.id }>

@@ -60,6 +60,24 @@ export interface IngredientCreate {
   recipeGroupId: number;
 }
 
+export interface InstructionRead {
+  /** @format int32 */
+  id?: number;
+
+  /** @format int32 */
+  order?: number;
+  text?: string | null;
+}
+
+export interface InstructionCreate {
+  /** @format int32 */
+  order: number;
+  text?: string | null;
+
+  /** @format int32 */
+  recipeId: number;
+}
+
 export interface MeasureRead {
   /** @format int32 */
   id?: number;
@@ -114,6 +132,7 @@ export interface RecipeReadWithRecipeGroups {
   description?: string | null;
   recipeGroups?: RecipeGroupReadWithIngredientRead[] | null;
   measures?: MeasureRead[] | null;
+  instructions?: InstructionRead[] | null;
 }
 
 export interface Account {
@@ -130,6 +149,25 @@ export interface Account {
   email: string;
   password: string;
   recipes?: Recipe[] | null;
+}
+
+export interface Instruction {
+  /** @format date-time */
+  createdDate: string;
+
+  /** @format date-time */
+  updatedDate: string;
+
+  /** @format int32 */
+  id?: number;
+
+  /** @format int32 */
+  order: number;
+  text?: string | null;
+
+  /** @format int32 */
+  recipeId: number;
+  recipe?: Recipe;
 }
 
 export interface Recipe {
@@ -149,6 +187,7 @@ export interface Recipe {
   accountId: number;
   account?: Account;
   recipeGroups?: RecipeGroup[] | null;
+  instructions?: Instruction[] | null;
 }
 
 export interface RecipeGroup {
@@ -523,6 +562,67 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     ingredientDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/ingredient/${id}`,
+        method: "DELETE",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Instruction
+     * @name InstructionList
+     * @request GET:/api/instruction
+     */
+    instructionList: (params: RequestParams = {}) =>
+      this.request<InstructionRead[], any>({
+        path: `/api/instruction`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Instruction
+     * @name InstructionCreate
+     * @request POST:/api/instruction
+     */
+    instructionCreate: (data: InstructionCreate, params: RequestParams = {}) =>
+      this.request<InstructionRead, any>({
+        path: `/api/instruction`,
+        method: "POST",
+        body: data,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Instruction
+     * @name GetInstructionById
+     * @request GET:/api/instruction/{id}
+     */
+    getInstructionById: (id: number, params: RequestParams = {}) =>
+      this.request<InstructionRead, any>({
+        path: `/api/instruction/${id}`,
+        method: "GET",
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Instruction
+     * @name InstructionDelete
+     * @request DELETE:/api/instruction/{id}
+     */
+    instructionDelete: (id: number, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/instruction/${id}`,
         method: "DELETE",
         ...params,
       }),

@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { RecipeGroupCreate, RecipeReadWithRecipeGroups } from '../../../api/models';
+import { InstructionCreate, RecipeGroupCreate, RecipeReadWithRecipeGroups } from '../../../api/models';
 import { getRecipeEditById } from '../../../api/quries';
 import styled from 'styled-components';
 import RecipeGroup from '../../../components/recipeGroup';
 import { InputLabel } from '../../../components/form/labels';
-import { SimpleInput } from '../../../components/form/inputs';
+import { BoxInput, SimpleInput } from '../../../components/form/inputs';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { Spinner } from '@chakra-ui/react';
+import RecipeInstruction from '../../../components/recipeInstruction';
+import { Divider } from '../../../components/divider';
 
 interface IEditor {
   data: RecipeReadWithRecipeGroups
@@ -26,6 +28,8 @@ const Container = styled.div`
     margin-top: 40px;
     flex-direction: column;
     align-items: center;
+    width: 470px;
+
     #name {
       color: ${props => props.theme.text.heavy};
       font-size: 62px;
@@ -73,6 +77,33 @@ const NewRecipeGroupForm = styled.form`
     margin-left: 10px;
     width: 100px;
     height: inherit;
+    cursor: pointer;
+  }
+`;
+
+const NewRecipeInstruction = styled.form`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  .lower {
+    margin-top: 10px;
+  }
+
+  #text {
+    margin-top: 5px;
+  }
+
+  #submit {
+    background-color: ${props => props.theme.text.flavour};
+    color: ${props => props.theme.text.light};
+    font-weight: 600;
+    margin-left: 10px;
+    width: 100px;
+    height: inherit;
+    cursor: pointer;
+    text-align: center;
   }
 `;
 
@@ -95,7 +126,7 @@ const Editor: React.FC<IEditor> = (props) => {
   const queryClient = useQueryClient();
   const recipeGroupMutation = useMutation<Response, unknown, RecipeGroupCreate>(body => axios.post('http://localhost:5000/api/recipegroup', body), {
     onSuccess: () => {
-      reset({});
+      reset({recipeId: props.data.id});
       queryClient.invalidateQueries('recipeEdit');
       queryClient.invalidateQueries('recipeGroups');
     }
@@ -107,6 +138,24 @@ const Editor: React.FC<IEditor> = (props) => {
   };
 
   const { isDirty, isValid } = formState;
+
+  const { register: instructionRegister, handleSubmit: instructionHandleSubmit, reset: instructionReset } = useForm<InstructionCreate>({
+    defaultValues: {
+      recipeId: props.data.id
+    }
+  });
+
+  const instructionMutation = useMutation<Response, unknown, InstructionCreate>(body => axios.post('http://localhost:5000/api/instruction', body), {
+    onSuccess: () => {
+      instructionReset({recipeId: props.data.id});
+      queryClient.invalidateQueries('recipeEdit');
+    }
+  });
+
+  const onInstructionSubmit: SubmitHandler<InstructionCreate> = data => {
+    console.log(data);
+    instructionMutation.mutate(data);
+  };
 
   return <Container>
     <div className='part'>
@@ -131,7 +180,19 @@ const Editor: React.FC<IEditor> = (props) => {
         Instructions
       </div>
       <div id='instructions'>
-        I
+        {props.data.instructions?.map((instruction) => (
+          <RecipeInstruction key={ instruction.id } instruction={ instruction } />
+        ))}
+        <NewRecipeInstruction onSubmit={instructionHandleSubmit(onInstructionSubmit)}>
+          <Divider />
+          New Instruction
+          <BoxInput id='text' {...instructionRegister('text')}/>
+          <div className='lower'>
+            Order: <SimpleInput small type='number' {...instructionRegister('order')}/>
+            <input type='submit' id='submit' value='+' />
+          </div>
+          
+        </NewRecipeInstruction>
       </div>
     </div>
   </ Container>;

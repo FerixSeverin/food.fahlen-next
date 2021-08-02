@@ -66,6 +66,7 @@ const Container = styled.div`
 
   .part {
     margin-top: 40px;
+    width: 470px;
 
     #instructionTitle {
       color: ${props => props.theme.text.flavour2};
@@ -73,6 +74,18 @@ const Container = styled.div`
       font-size: 32px;
       align-self: flex-end;
       width: 400px;
+    }
+
+    #instructions {
+      .instruction {
+        list-style: none;
+        display: flex;
+
+        .order {
+          font-weight: 600;
+          margin-right: 10px;
+        }
+      }
     }
   }
 `;
@@ -94,8 +107,15 @@ const RecipeViewer: React.FC<IRecipeViewer> = (props) => {
       <div id='instructionTitle'>
         Instructions
       </div>
+      <div id='instructions'>
+        {props.recipe.instructions?.map((instruction) => (
+          <li key={instruction.id} className='instruction'>
+            <div className='order'>{instruction.order}</div>
+            <div className='text'>{instruction.text}</div>
+          </li>
+        ))}
+      </div>
     </div>
-    
   </Container>;
 };
 
