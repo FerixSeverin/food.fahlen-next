@@ -10,12 +10,12 @@ export const refreshAuthentication = createAsyncThunk(
     url: 'http://localhost:5000/api/identity/refresh',
     withCredentials: true
   };
-  const response = await axios(config);
-  if(response.status != 200) {
-    throw new Error('Failed to refresh');
-    
+  try {
+    const res = await axios(config);
+    return (res.data as AuthSuccessResponse);
+  } catch (error) {
+    throw console.error('Failed to refresh');
   }
-  return response.data as AuthSuccessResponse;
 });
 
 export const authenticationSlice = createSlice({
@@ -23,17 +23,28 @@ export const authenticationSlice = createSlice({
   initialState: {
     jwt: '',
     isAuthenticated: false,
+    email: '',
   },
   reducers: {
     login(state, {payload}) {
       state.isAuthenticated = true;
       state.jwt = payload;
+    },
+    logout(state) {
+      state.isAuthenticated = false;
+      state.jwt = '';
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(refreshAuthentication.fulfilled, (state, payload) => {
-      state.jwt = payload.payload.token!;
-      state.isAuthenticated = true;
+    builder.addCase(refreshAuthentication.fulfilled, (state, action) => {
+      return ({
+        ...state,
+        jwt: action.payload.token!,
+        isAuthenticated: true,
+      });
+    });
+    builder.addCase(refreshAuthentication.pending, (state) => {
+      state.jwt = '';
     });
     builder.addCase(refreshAuthentication.rejected, (state) => {
       state.jwt = '';
@@ -42,6 +53,6 @@ export const authenticationSlice = createSlice({
   }
 });
 
-export const { login } = authenticationSlice.actions;
+export const { login, logout } = authenticationSlice.actions;
 
 export default authenticationSlice.reducer;

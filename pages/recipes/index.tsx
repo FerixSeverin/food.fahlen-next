@@ -3,9 +3,10 @@ import React from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { RecipeRead } from '../../api/models';
-import { getAllRecipes } from '../../api/quries';
+import { getAllRecipes, recipeDelete } from '../../api/quries';
 import { Spinner } from '@chakra-ui/react';
-import axios from 'axios';
+import {  useSelector } from 'react-redux';
+import { RootState } from '../../features/reducer';
 
 const RecipeContainer = styled.div`
   display: flex;
@@ -32,9 +33,11 @@ interface IRecipe {
 
 const Recipe: React.FC<IRecipe> = (props) => {
   const queryClient = useQueryClient();
-  
-  const deleteRecipeMutation = useMutation<Response, unknown, number>(id => axios.delete(`http://localhost:5000/api/instruction/${id}`), {
+  const jwt = useSelector((state: RootState) => { return state.authentication.jwt; });
+
+  const deleteRecipeMutation = useMutation<RecipeRead, unknown, number>(id => recipeDelete(id, jwt), {
     onSuccess: () => {
+      console.log('succeded');
       queryClient.invalidateQueries('accounts');
     }
   });
@@ -59,14 +62,18 @@ const BaseContainer = styled.ul`
 `;
 
 const IdCheck: React.FC = () => {
-  const { data, isLoading, isError, error } = useQuery<RecipeRead[], Error>('accounts', () => getAllRecipes());
+  const auth = useSelector((state: RootState) => { return state.authentication; });
+  const { data, isLoading, isError, error } = useQuery<RecipeRead[], Error>('recipes', () => getAllRecipes(auth.jwt), {
+    enabled: auth.isAuthenticated
+  });
+
   if (isError) return <>{error}</>;
-  if (isLoading) return <Spinner />;
+  if (isLoading || data == undefined) return <Spinner />;
 
   return (
     <BaseContainer>
       <div id='name'>
-        Recipes  
+        Recipes
       </ div>
       {data!.map((recipe) => (<div key={recipe.id} className='recipe'>
         <Recipe key={recipe.id} recipe={recipe} />

@@ -12,6 +12,8 @@ import axios from 'axios';
 import { Spinner } from '@chakra-ui/react';
 import RecipeInstruction from '../../../components/recipeInstruction';
 import { Divider } from '../../../components/divider';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../features/reducer';
 
 interface IEditor {
   data: RecipeReadWithRecipeGroups
@@ -198,16 +200,13 @@ const Editor: React.FC<IEditor> = (props) => {
   </ Container>;
 };
 
-
-
-
-
 interface IRecipeEditor {
   id: number
 }
 
 const Recipe: React.FC<IRecipeEditor> = ( props ) => {
-  const { data, isLoading, isError, error } = useQuery<RecipeReadWithRecipeGroups, Error>('recipeEdit', () => getRecipeEditById(props.id));
+  const jwt = useSelector((state: RootState) => { return state.authentication.jwt; });
+  const { data, isLoading, isError, error } = useQuery<RecipeReadWithRecipeGroups, Error>('recipeEdit', () => getRecipeEditById(props.id, jwt));
   
   if (isError) return <>{ error }</>;
   if (isLoading) return <Spinner />;

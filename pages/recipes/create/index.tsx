@@ -1,28 +1,32 @@
-import axios from 'axios';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { RecipeCreate } from '../../../api/models';
+import { RecipeCreate, RecipeRead } from '../../../api/models';
+import { createRecipe } from '../../../api/quries';
 import { SimpleInput } from '../../../components/form/inputs';
 import { InputLabel } from '../../../components/form/labels';
+import { RootState } from '../../../features/reducer';
+import Router from 'next/router';
 
 const RecipeForm = styled.form`
   
 `;
 
 const CreateIndex: React.FC = () => {
+  const jwt = useSelector((state: RootState) => { return state.authentication.jwt; });
   const { register, handleSubmit, reset, formState } = useForm<RecipeCreate>({
     shouldFocusError: true,
     defaultValues: {
       favorite: false,
-      accountId: 2,
     }
   });
 
-  const recipeMutation = useMutation<Response, unknown, RecipeCreate>(body => axios.post('http://localhost:5000/api/recipe', body), {
-    onSuccess: () => {
+  const recipeMutation = useMutation<RecipeRead, unknown, RecipeCreate>(body => createRecipe(body, jwt), {
+    onSuccess: (data) => {
       reset({});
+      Router.push(`/recipes/${data.id}`);
     }
   });
 
@@ -41,7 +45,6 @@ const CreateIndex: React.FC = () => {
       <SimpleInput {...register('description')} />
 
       <input type='hidden' {...register('favorite')} />
-      <input type='hidden' {...register('accountId')} />
 
       <input type='submit' disabled={!isDirty || !isValid}/>
     </RecipeForm>

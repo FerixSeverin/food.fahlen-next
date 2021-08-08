@@ -131,9 +131,6 @@ export interface RecipeCreate {
   name: string;
   favorite: boolean;
   description?: string | null;
-
-  /** @format int32 */
-  accountId: number;
 }
 
 export interface IngredientReadWithMeasure {
@@ -164,20 +161,26 @@ export interface RecipeReadWithRecipeGroups {
   instructions?: InstructionRead[] | null;
 }
 
-export interface Account {
-  /** @format date-time */
-  createdDate: string;
+export interface IdentityUser {
+  id?: string | null;
+  userName?: string | null;
+  normalizedUserName?: string | null;
+  email?: string | null;
+  normalizedEmail?: string | null;
+  emailConfirmed?: boolean;
+  passwordHash?: string | null;
+  securityStamp?: string | null;
+  concurrencyStamp?: string | null;
+  phoneNumber?: string | null;
+  phoneNumberConfirmed?: boolean;
+  twoFactorEnabled?: boolean;
 
   /** @format date-time */
-  updatedDate: string;
+  lockoutEnd?: string | null;
+  lockoutEnabled?: boolean;
 
   /** @format int32 */
-  id?: number;
-  firstName: string;
-  lastName?: string | null;
-  email: string;
-  password: string;
-  recipes?: Recipe[] | null;
+  accessFailedCount?: number;
 }
 
 export interface Instruction {
@@ -211,10 +214,8 @@ export interface Recipe {
   name: string;
   favorite: boolean;
   description?: string | null;
-
-  /** @format int32 */
-  accountId: number;
-  account?: Account;
+  userId?: string | null;
+  user?: IdentityUser;
   recipeGroups?: RecipeGroup[] | null;
   instructions?: Instruction[] | null;
 }

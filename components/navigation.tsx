@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect } from 'react';
+import { useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { refreshAuthentication } from '../features/authentication/authenticationReducer';
@@ -22,12 +23,13 @@ const Container = styled.nav`
 
 const Navigation: React.FC = () => {
   // const [authState] = useContext(AuthContext);
+  const queryClient = useQueryClient();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(refreshAuthentication());
   });
 
-  const isAuthenticated = useSelector((state: RootState) =>{ return state.authentication.isAuthenticated; });
+  const isAuthenticated = useSelector(((state: RootState) => { return state.authentication.isAuthenticated; }));
   
   if (isAuthenticated === false) {
     return <Container>
@@ -36,6 +38,8 @@ const Navigation: React.FC = () => {
     </Container>;
   }
 
+  
+  queryClient.invalidateQueries('recipes');
   return <Container>
     <Link href='/recipes' passHref><a>Recipes</a></Link>
     <Link href='/recipes/create' passHref><a>Create Recipe</a></Link>

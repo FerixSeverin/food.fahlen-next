@@ -10,6 +10,7 @@ import Navigation from '../components/navigation';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
 import { store } from '../features/reducer';
+import { AccountHeader } from '../components/accountHeader';
 // import { AuthProvider } from '../components/state/authProvider';
 
 const Background = styled.div`
@@ -111,6 +112,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
                   <Navigation />
                   <Switches>
+                    <AccountHeader />
                     {/* <LoggedInSwitch isLoggedIn={login} onClick={loggedInToggler}>{login === true ? 'User' : 'Guest'}</LoggedInSwitch> */}
                     <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
                   </Switches>

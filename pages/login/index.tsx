@@ -1,3 +1,4 @@
+import Router from 'next/router';
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -23,6 +24,7 @@ const LoginIndex: React.FC = () => {
       dispatch(login((data as AuthSuccessResponse).token));
       // setAuthState({ jwt: (data as AuthSuccessResponse).token! });
       reset({});
+      Router.push('/recipes/');
     }
   });
 

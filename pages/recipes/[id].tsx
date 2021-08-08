@@ -5,6 +5,8 @@ import { getRecipeEditById } from '../../api/quries';
 import { RecipeGroupReadWithIngredientRead, RecipeReadWithRecipeGroups } from '../../api/models';
 import { Spinner } from '@chakra-ui/react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../features/reducer';
 
 const GroupContainer = styled.div`
   font-size: 26px;
@@ -124,11 +126,11 @@ interface IRecipeFetch {
 }
 
 const RecipeFetch: React.FC<IRecipeFetch> = (props) => {
-  const { data, isLoading, isError, error } = useQuery<RecipeReadWithRecipeGroups, Error>('recipeEdit', () => getRecipeEditById(props.id));
+  const jwt = useSelector((state: RootState) => { return state.authentication.jwt; });
+  const { data, isLoading, isError, error } = useQuery<RecipeReadWithRecipeGroups, Error>('recipeEdit', () => getRecipeEditById(props.id, jwt));
   if (isError) return <>{ error }</>;
   if (isLoading) return <Spinner />;
   return <RecipeViewer recipe={data!}/>;
-
 };
 
 const IdCheck: React.FC = () => {
