@@ -24,6 +24,35 @@ export interface AccountCreate {
   password: string;
 }
 
+export interface Login {
+  /** @format date-time */
+  createdDate: string;
+
+  /** @format date-time */
+  updatedDate: string;
+  email: string;
+  password: string;
+}
+
+export interface UserRegistrationRequest {
+  /** @format email */
+  email?: string | null;
+  password?: string | null;
+}
+
+export interface AuthSuccessResponse {
+  token?: string | null;
+}
+
+export interface AuthFailResponse {
+  errors?: string[] | null;
+}
+
+export interface UserLoginRequest {
+  email?: string | null;
+  password?: string | null;
+}
+
 export interface Measure {
   /** @format date-time */
   createdDate: string;
@@ -464,11 +493,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Account
      * @name AccountList
      * @request GET:/api/account
+     * @secure
      */
     accountList: (params: RequestParams = {}) =>
       this.request<AccountRead[], any>({
         path: `/api/account`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -479,12 +510,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Account
      * @name AccountCreate
      * @request POST:/api/account
+     * @secure
      */
     accountCreate: (data: AccountCreate, params: RequestParams = {}) =>
       this.request<AccountRead, any>({
         path: `/api/account`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -496,11 +529,87 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Account
      * @name GetAccountById
      * @request GET:/api/account/{id}
+     * @secure
      */
     getAccountById: (id: number, params: RequestParams = {}) =>
       this.request<AccountRead, any>({
         path: `/api/account/${id}`,
         method: "GET",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Account
+     * @name AccountLoginList
+     * @request GET:/api/account/login
+     * @secure
+     */
+    accountLoginList: (data: Login, params: RequestParams = {}) =>
+      this.request<AccountRead, any>({
+        path: `/api/account/login`,
+        method: "GET",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Identity
+     * @name IdentityRegisterCreate
+     * @request POST:/api/identity/register
+     * @secure
+     */
+    identityRegisterCreate: (data: UserRegistrationRequest, params: RequestParams = {}) =>
+      this.request<AuthSuccessResponse, AuthFailResponse>({
+        path: `/api/identity/register`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Identity
+     * @name IdentityLoginCreate
+     * @request POST:/api/identity/login
+     * @secure
+     */
+    identityLoginCreate: (data: UserLoginRequest, params: RequestParams = {}) =>
+      this.request<AuthSuccessResponse, AuthFailResponse>({
+        path: `/api/identity/login`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Identity
+     * @name IdentityRefreshCreate
+     * @request POST:/api/identity/refresh
+     * @secure
+     */
+    identityRefreshCreate: (params: RequestParams = {}) =>
+      this.request<AuthSuccessResponse, AuthFailResponse>({
+        path: `/api/identity/refresh`,
+        method: "POST",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -511,11 +620,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Ingredient
      * @name IngredientList
      * @request GET:/api/ingredient
+     * @secure
      */
     ingredientList: (params: RequestParams = {}) =>
       this.request<IngredientRead[], any>({
         path: `/api/ingredient`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -526,12 +637,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Ingredient
      * @name IngredientCreate
      * @request POST:/api/ingredient
+     * @secure
      */
     ingredientCreate: (data: IngredientCreate, params: RequestParams = {}) =>
       this.request<IngredientRead, any>({
         path: `/api/ingredient`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -543,11 +656,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Ingredient
      * @name GetIngredientById
      * @request GET:/api/ingredient/{id}
+     * @secure
      */
     getIngredientById: (id: number, params: RequestParams = {}) =>
       this.request<IngredientRead, any>({
         path: `/api/ingredient/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -558,11 +673,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Ingredient
      * @name IngredientDelete
      * @request DELETE:/api/ingredient/{id}
+     * @secure
      */
     ingredientDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/ingredient/${id}`,
         method: "DELETE",
+        secure: true,
         ...params,
       }),
 
@@ -572,11 +689,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Instruction
      * @name InstructionList
      * @request GET:/api/instruction
+     * @secure
      */
     instructionList: (params: RequestParams = {}) =>
       this.request<InstructionRead[], any>({
         path: `/api/instruction`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -587,12 +706,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Instruction
      * @name InstructionCreate
      * @request POST:/api/instruction
+     * @secure
      */
     instructionCreate: (data: InstructionCreate, params: RequestParams = {}) =>
       this.request<InstructionRead, any>({
         path: `/api/instruction`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -604,11 +725,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Instruction
      * @name GetInstructionById
      * @request GET:/api/instruction/{id}
+     * @secure
      */
     getInstructionById: (id: number, params: RequestParams = {}) =>
       this.request<InstructionRead, any>({
         path: `/api/instruction/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -619,11 +742,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Instruction
      * @name InstructionDelete
      * @request DELETE:/api/instruction/{id}
+     * @secure
      */
     instructionDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/instruction/${id}`,
         method: "DELETE",
+        secure: true,
         ...params,
       }),
 
@@ -633,11 +758,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Measure
      * @name MeasureList
      * @request GET:/api/measure
+     * @secure
      */
     measureList: (params: RequestParams = {}) =>
       this.request<MeasureRead[], any>({
         path: `/api/measure`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -648,12 +775,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Measure
      * @name MeasureCreate
      * @request POST:/api/measure
+     * @secure
      */
     measureCreate: (data: MeasureCreate, params: RequestParams = {}) =>
       this.request<MeasureRead, any>({
         path: `/api/measure`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -665,11 +794,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Measure
      * @name GetMeasureById
      * @request GET:/api/measure/{id}
+     * @secure
      */
     getMeasureById: (id: number, params: RequestParams = {}) =>
       this.request<MeasureRead, any>({
         path: `/api/measure/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -680,11 +811,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Measure
      * @name MeasureDelete
      * @request DELETE:/api/measure/{id}
+     * @secure
      */
     measureDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/measure/${id}`,
         method: "DELETE",
+        secure: true,
         ...params,
       }),
 
@@ -694,11 +827,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Recipe
      * @name RecipeList
      * @request GET:/api/recipe
+     * @secure
      */
     recipeList: (params: RequestParams = {}) =>
       this.request<RecipeRead[], any>({
         path: `/api/recipe`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -709,12 +844,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Recipe
      * @name RecipeCreate
      * @request POST:/api/recipe
+     * @secure
      */
     recipeCreate: (data: RecipeCreate, params: RequestParams = {}) =>
       this.request<RecipeRead, any>({
         path: `/api/recipe`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -726,11 +863,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Recipe
      * @name GetRecipeById
      * @request GET:/api/recipe/{id}
+     * @secure
      */
     getRecipeById: (id: number, params: RequestParams = {}) =>
       this.request<RecipeRead, any>({
         path: `/api/recipe/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -741,11 +880,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Recipe
      * @name RecipeDelete
      * @request DELETE:/api/recipe/{id}
+     * @secure
      */
     recipeDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/recipe/${id}`,
         method: "DELETE",
+        secure: true,
         ...params,
       }),
 
@@ -755,11 +896,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags Recipe
      * @name GetRecipeEditById
      * @request GET:/api/recipe/all/{id}
+     * @secure
      */
     getRecipeEditById: (id: number, params: RequestParams = {}) =>
       this.request<RecipeReadWithRecipeGroups, any>({
         path: `/api/recipe/all/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -770,11 +913,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags RecipeGroup
      * @name RecipegroupList
      * @request GET:/api/recipegroup
+     * @secure
      */
     recipegroupList: (params: RequestParams = {}) =>
       this.request<RecipeGroupRead[], any>({
         path: `/api/recipegroup`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -785,12 +930,14 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags RecipeGroup
      * @name RecipegroupCreate
      * @request POST:/api/recipegroup
+     * @secure
      */
     recipegroupCreate: (data: RecipeGroupCreate, params: RequestParams = {}) =>
       this.request<RecipeGroupRead, any>({
         path: `/api/recipegroup`,
         method: "POST",
         body: data,
+        secure: true,
         type: ContentType.Json,
         format: "json",
         ...params,
@@ -802,11 +949,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags RecipeGroup
      * @name GetRecipeGroupById
      * @request GET:/api/recipegroup/{id}
+     * @secure
      */
     getRecipeGroupById: (id: number, params: RequestParams = {}) =>
       this.request<RecipeGroupRead, any>({
         path: `/api/recipegroup/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),
@@ -817,11 +966,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags RecipeGroup
      * @name RecipegroupDelete
      * @request DELETE:/api/recipegroup/{id}
+     * @secure
      */
     recipegroupDelete: (id: number, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/recipegroup/${id}`,
         method: "DELETE",
+        secure: true,
         ...params,
       }),
 
@@ -831,11 +982,13 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @tags RecipeGroup
      * @name GetRecipeGroupsByRecipeId
      * @request GET:/api/recipegroup/recipe/{id}
+     * @secure
      */
     getRecipeGroupsByRecipeId: (id: number, params: RequestParams = {}) =>
       this.request<RecipeGroupRead[], any>({
         path: `/api/recipegroup/recipe/${id}`,
         method: "GET",
+        secure: true,
         format: "json",
         ...params,
       }),

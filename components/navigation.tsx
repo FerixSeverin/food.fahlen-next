@@ -1,6 +1,10 @@
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { refreshAuthentication } from '../features/authentication/authenticationReducer';
+import { RootState } from '../features/reducer';
+// import { AuthContext } from './state/authProvider';
 
 const Container = styled.nav`
   display: flex;
@@ -16,13 +20,16 @@ const Container = styled.nav`
   }
 `;
 
-interface Props {
-  loggedIn: boolean,
-}
+const Navigation: React.FC = () => {
+  // const [authState] = useContext(AuthContext);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(refreshAuthentication());
+  });
 
-const Navigation: React.FC<Props> = (props) => {
+  const isAuthenticated = useSelector((state: RootState) =>{ return state.authentication.isAuthenticated; });
   
-  if (props.loggedIn === false) {
+  if (isAuthenticated === false) {
     return <Container>
       <Link href='/register' passHref><a>Register</a></Link>
       <Link href='/login' passHref><a>Login</a></Link>

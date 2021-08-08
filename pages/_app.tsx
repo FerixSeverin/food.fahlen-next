@@ -8,6 +8,9 @@ import Link from 'next/link';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import Navigation from '../components/navigation';
 import { ChakraProvider } from '@chakra-ui/react';
+import { Provider } from 'react-redux';
+import { store } from '../features/reducer';
+// import { AuthProvider } from '../components/state/authProvider';
 
 const Background = styled.div`
   background-color: ${props => props.theme.backgroundColor};
@@ -75,22 +78,9 @@ const Switches = styled.div`
   align-items: center;
 `;
 
-interface LoggedInSwitchProps  {
-  isLoggedIn: boolean,
-}
-
-const LoggedInSwitch = styled.button<LoggedInSwitchProps>`
-  border: none;
-  font-size: 14px;
-  margin-right: 20px;
-  color: ${props => props.theme.text.light};
-  background-color: ${props => props.isLoggedIn ? props.theme.text.flavour2 : props.theme.text.flavour};
-`;
-
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
   const [theme, setTheme] = useState(ThemeStyle.Light);
-  const [login, setLogin] = useState(false);
   const themeToggler = () => {
     if (theme === ThemeStyle.Light) {
       setTheme(ThemeStyle.Dark);
@@ -101,55 +91,42 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   };
 
-  const loggedInToggler = () => {
-    if (login === false) {
-      setLogin(true);
-      localStorage.setItem('login', 'true');
-    } else {
-      setLogin(false);
-      localStorage.setItem('login', 'false');
-    }
-  };
-
   useEffect(() => {
     if (localStorage.getItem('darkMode') === 'true') {
       setTheme(ThemeStyle.Dark);
     } else {
       setTheme(ThemeStyle.Light);
     }
-
-    if (localStorage.getItem('login') === 'true') {
-      setLogin(true);
-    } else {
-      setLogin(false);
-    }
   }, []);
   
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider theme={theme === ThemeStyle.Light ? lightTheme : darkTheme}>
-        <ChakraProvider>
-          <Background>
-            <Head />
-            <Wrapper>
-              <Header>
-                <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
-                <Navigation loggedIn={login} />
-                <Switches>
-                  <LoggedInSwitch isLoggedIn={login} onClick={loggedInToggler}>{login === true ? 'User' : 'Guest'}</LoggedInSwitch>
-                  <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
-                </Switches>
+      <Provider store={store}>
+        <ThemeProvider theme={theme === ThemeStyle.Light ? lightTheme : darkTheme}>
+          <ChakraProvider>
+            <Background>
+              <Head />
+              <Wrapper>
+                <Header>
+                  <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
+                  <Navigation />
+                  <Switches>
+                    {/* <LoggedInSwitch isLoggedIn={login} onClick={loggedInToggler}>{login === true ? 'User' : 'Guest'}</LoggedInSwitch> */}
+                    <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
+                  </Switches>
+                  
+                </Header>
                 
-              </Header>
-              
-              <Main>
-                <Component {...pageProps} />
-              </Main>
-            </Wrapper>
-          </Background>
-        </ChakraProvider>
-      </ThemeProvider>
+                <Main>
+                  <Component {...pageProps} />
+                </Main>
+              </Wrapper>
+            </Background>
+          </ChakraProvider>
+        </ThemeProvider>
+      </Provider>
     </QueryClientProvider>
+
   );
 }
 export default MyApp;
