@@ -4,13 +4,11 @@ import React, { useEffect, useState } from 'react';
 import Head from '../components/head';
 import styled, { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from '../styles/theme';
-import Link from 'next/link';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import Navigation from '../components/navigation';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
 import { store } from '../features/reducer';
-import { AccountHeader } from '../components/accountHeader';
+import Header from '../components/header';
 // import { AuthProvider } from '../components/state/authProvider';
 
 const Background = styled.div`
@@ -31,33 +29,6 @@ export enum ThemeStyle {
   Dark,
 }
 
-const ThemeSwitch = styled.button`
-  margin: 0;
-  padding: 0;
-  border: none;
-  height: 45px;
-  width: 45px;
-  background-color: rgba(0,0,0,0);
-  //background-color: ${props => props.theme.text.heavy};
-  font-size: 30px;
-  cursor: pointer;
-`;
-
-const Logo = styled.a`
-  color: ${props => props.theme.text.flavour};
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 1.25;
-`;
-
-const Header = styled.header`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  width: 100%;
-  margin: 20px 0 0;
-`;
-
 const Main = styled.main`
   flex-grow: 1;
   display: flex;
@@ -74,23 +45,9 @@ const Wrapper = styled.div`
   }
 `;
 
-const Switches = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 function MyApp({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
   const [theme, setTheme] = useState(ThemeStyle.Light);
-  const themeToggler = () => {
-    if (theme === ThemeStyle.Light) {
-      setTheme(ThemeStyle.Dark);
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      setTheme(ThemeStyle.Light);
-      localStorage.setItem('darkMode', 'false');
-    }
-  };
 
   useEffect(() => {
     if (localStorage.getItem('darkMode') === 'true') {
@@ -108,17 +65,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Background>
               <Head />
               <Wrapper>
-                <Header>
-                  <Link href='/' passHref><Logo>FOOD.Fahlen</Logo></Link>
-                  <Navigation />
-                  <Switches>
-                    <AccountHeader />
-                    {/* <LoggedInSwitch isLoggedIn={login} onClick={loggedInToggler}>{login === true ? 'User' : 'Guest'}</LoggedInSwitch> */}
-                    <ThemeSwitch onClick={themeToggler}>{theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
-                  </Switches>
-                  
-                </Header>
-                
+                <Header theme={theme} setTheme={setTheme}/>
                 <Main>
                   <Component {...pageProps} />
                 </Main>

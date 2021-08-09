@@ -8,11 +8,7 @@ const Container = styled.div`
   color: ${props => props.theme.text.light};
   padding: 0 10px 0;
   display: flex;
-
-  button {
-    height: 20px;
-    width: 20px;
-  }
+  align-self: flex-end;
 `;
 
 export const AccountHeader: React.FC = () => {
@@ -23,7 +19,7 @@ export const AccountHeader: React.FC = () => {
     <button onClick={() => {
       dispatch(logoutAuthentication());
       Router.push('/');
-    }} />
+    }} >Log out</button>
     
   </Container>;
 };

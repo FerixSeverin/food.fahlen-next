@@ -20,4 +20,9 @@ const BoxInput = styled.input`
   height: 80px;
 `;
 
-export { SimpleInput, BoxInput };
+const LoginInput = styled.input`
+  width: 100%;
+  height: 30px;
+`;
+
+export { SimpleInput, BoxInput, LoginInput };
