@@ -53,6 +53,8 @@ export interface UserLoginRequest {
   password?: string | null;
 }
 
+export type AuthLogoutSuccessResponse = object;
+
 export interface Measure {
   /** @format date-time */
   createdDate: string;
@@ -618,6 +620,23 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     /**
      * No description
      *
+     * @tags Identity
+     * @name IdentityLogoutCreate
+     * @request POST:/api/identity/logout
+     * @secure
+     */
+    identityLogoutCreate: (params: RequestParams = {}) =>
+      this.request<AuthLogoutSuccessResponse, AuthFailResponse>({
+        path: `/api/identity/logout`,
+        method: "POST",
+        secure: true,
+        format: "json",
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
      * @tags Ingredient
      * @name IngredientList
      * @request GET:/api/ingredient
@@ -884,10 +903,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @secure
      */
     recipeDelete: (id: number, params: RequestParams = {}) =>
-      this.request<void, any>({
+      this.request<RecipeRead, any>({
         path: `/api/recipe/${id}`,
         method: "DELETE",
         secure: true,
+        format: "json",
         ...params,
       }),
 

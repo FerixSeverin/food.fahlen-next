@@ -25,8 +25,12 @@ const Navigation: React.FC = () => {
   // const [authState] = useContext(AuthContext);
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
+  
+
   useEffect(() => {
-    dispatch(refreshAuthentication());
+    if (localStorage.getItem('refresh')) {
+      dispatch(refreshAuthentication());
+    }
   });
 
   const isAuthenticated = useSelector(((state: RootState) => { return state.authentication.isAuthenticated; }));

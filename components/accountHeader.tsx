@@ -1,6 +1,7 @@
+import Router from 'next/router';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { logout } from '../features/authentication/authenticationReducer';
+import { logoutAuthentication } from '../features/authentication/authenticationReducer';
 
 const Container = styled.div`
   background-color: ${props => props.theme.text.flavour2};
@@ -19,7 +20,10 @@ export const AccountHeader: React.FC = () => {
   //const jwt = useSelector((state: RootState) => { return state.authentication.jwt; });
   
   return <Container>
-    <button onClick={() => dispatch(logout())} />
+    <button onClick={() => {
+      dispatch(logoutAuthentication());
+      Router.push('/');
+    }} />
     
   </Container>;
 };
