@@ -12,6 +12,7 @@ const lightTheme: DefaultTheme = {
   form: {
     default: '#BEDCFA',
     flavour: '#F0D9E7',
+    dark: '#125D98',
   },
   system: {
     error: '#E23E57',
@@ -31,6 +32,7 @@ const darkTheme: DefaultTheme = {
   form: {
     default: '#BEDCFA',
     flavour: '#F0D9E7',
+    dark: '#6E85B2',
   },
   system: {
     error: '#E23E57',

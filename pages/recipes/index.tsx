@@ -38,7 +38,7 @@ const Recipe: React.FC<IRecipe> = (props) => {
   const deleteRecipeMutation = useMutation<RecipeRead, unknown, number>(id => recipeDelete(id, jwt), {
     onSuccess: () => {
       console.log('succeded');
-      queryClient.invalidateQueries('accounts');
+      queryClient.invalidateQueries('recipes');
     }
   });
 

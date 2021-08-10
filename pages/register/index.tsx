@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SimpleInput } from '../../components/form/inputs';
+import { LoginInput } from '../../components/form/inputs';
 import styled from 'styled-components';
 import { InputLabel } from '../../components/form/labels';
 import { AuthFailResponse, AuthSuccessResponse, UserRegistrationRequest } from '../../api/models';
@@ -7,8 +7,33 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
 import { registerQuery } from '../../api/accountQueries';
 
-const RegisterForm = styled.form`
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
 
+  #loginButton {
+    margin-top: 10px;
+  }
+`;
+
+const RegisterForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  height: 260px;
+  width: 300px;
+  justify-content: space-around;
+`;
+
+const RegisterButton = styled.input`
+  background-color: ${props => props.theme.text.flavour};
+  width: 140px;
+  height: 40px;
+  color: ${props => props.theme.text.light};
+  font-weight: 600;
+  cursor: pointer;
 `;
 
 const RegisterIndex: React.FC = () => {
@@ -28,31 +53,29 @@ const RegisterIndex: React.FC = () => {
     registerMutation.mutate(data);
   };
 
-  return (
+  return <Container>
     <RegisterForm id='registerForm' onSubmit={handleSubmit(onSubmit)}>
-        {/* <InputLabel>First Name</InputLabel>
-        <SimpleInput type='text' {...register('firstName')} />
-        <InputLabel>Last Name</InputLabel>
-        <SimpleInput type='text' {...register('lastName')} /> */}
+      <div className='group'>
         <InputLabel>E-mail</InputLabel>
-        <SimpleInput type='email' {...register('email')} />
+        <LoginInput light type='email' {...register('email')} />
+      </div>
+      <div className='group'>
         <InputLabel>Password</InputLabel>
-        <SimpleInput type='password' value={passwordRepeat} onChange={e => setPasswordRepeat((e.target as HTMLInputElement).value)} />
+        <LoginInput light type='password' value={passwordRepeat} onChange={e => setPasswordRepeat((e.target as HTMLInputElement).value)} />
+      </div>
+      <div className='group'>
         <InputLabel>Repeat Password</InputLabel>
-        <SimpleInput type='password' {...register('password', {
+        <LoginInput light type='password' {...register('password', {
           required: true,
           validate: value => 
             value === passwordRepeat || 'The passwords do not match'
         })}/>
-        <input type='submit' />
-
-        {/* <ul>
-          {data?.map((account) => (
-            <li key={account.id}>{ account.firstName } {account.id}</li>
-          ))}
-        </ul> */}
+      </div>
+      
+      <RegisterButton id='loginButton' type='submit' value='Register' />
     </RegisterForm>
-  );
+    <div />
+  </Container>;
 };
 
 export default RegisterIndex;

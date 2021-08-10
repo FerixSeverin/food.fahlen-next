@@ -37,9 +37,16 @@ const LoginButton = styled.input`
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  height: 200px;
+  height: 260px;
   width: 300px;
   justify-content: space-around;
+  
+  #welcomeText {
+    margin-bottom: 20px;
+    font-size: 26px;
+    font-weight: 600;
+    color: ${props => props.theme.text.flavour2};
+  }
 `;
 
 const LoginIndex: React.FC = () => {
@@ -61,6 +68,7 @@ const LoginIndex: React.FC = () => {
 
   return <Container>
     <LoginForm onSubmit={handleSubmit(onSubmit)}>
+      <div id='welcomeText'>Welcome back.</div>
       <div className='group'>
         <InputLabel>E-mail</InputLabel>
         <LoginInput type='email' {...register('email')} />

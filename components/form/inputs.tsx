@@ -20,9 +20,22 @@ const BoxInput = styled.input`
   height: 80px;
 `;
 
-const LoginInput = styled.input`
+interface ILoginInput {
+  light?: boolean;
+}
+
+const LoginInput = styled.input<ILoginInput>`
+  background-color: ${props => props.light ? props.theme.form.default : props.theme.form.flavour};
+  border-radius: 5px;
   width: 100%;
   height: 30px;
+
+  ::placeholder {
+    color: ${props => props.theme.form.dark};
+    font-size: 18px;
+    padding-left: 8px;
+    opacity: 50%;
+  }
 `;
 
 export { SimpleInput, BoxInput, LoginInput };

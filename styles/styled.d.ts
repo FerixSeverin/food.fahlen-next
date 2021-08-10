@@ -13,6 +13,7 @@ declare module 'styled-components' {
     form: {
       default: string,
       flavour: string,
+      dark: string,
     },
     system: {
       error: string,
