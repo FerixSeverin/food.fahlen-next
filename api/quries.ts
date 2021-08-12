@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig } from 'axios';
 export const getQuerySimple = async <TRes>(jwt: string, api: string): Promise<TRes> => {
   const config: AxiosRequestConfig = {
     method: 'get',
-    url: `https://food.fahlen.dev/api/${api}`,
+    url: `https://food.fahlen.dev:5001/api/${api}`,
     withCredentials: true,
     headers: { Authorization: `Bearer ${jwt}`}
   };
@@ -18,7 +18,7 @@ export const getQuerySimple = async <TRes>(jwt: string, api: string): Promise<TR
 export const getQueryID = async <TRes>(jwt: string, api: string, id: number): Promise<TRes> => {
   const config: AxiosRequestConfig = {
     method: 'get',
-    url: `https://food.fahlen.dev/api/${api}/${id}`,
+    url: `https://food.fahlen.dev:5001/api/${api}/${id}`,
     withCredentials: true,
     headers: { Authorization: `Bearer ${jwt}`}
   };
@@ -34,7 +34,7 @@ export const postQuery = async <TReq, TRes>(jwt: string, api: string, req: TReq)
   const config: AxiosRequestConfig = {
     method: 'post',
     data: req,
-    url: `https://food.fahlen.dev/api/${api}`,
+    url: `https://food.fahlen.dev:5001/api/${api}`,
     withCredentials: true,
     headers: { Authorization: `Bearer ${jwt}`}
   };
@@ -49,7 +49,7 @@ export const postQuery = async <TReq, TRes>(jwt: string, api: string, req: TReq)
 export const deleteQueryID = async <TRes>(jwt: string, api: string, id: number): Promise<TRes> => {
   const config: AxiosRequestConfig = {
     method: 'delete',
-    url: `https://food.fahlen.dev/api/${api}/${id}`,
+    url: `https://food.fahlen.dev:5001/api/${api}/${id}`,
     withCredentials: true,
     headers: { Authorization: `Bearer ${jwt}`}
   };
