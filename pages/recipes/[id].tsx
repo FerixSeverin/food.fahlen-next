@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { getRecipeEditById } from '../../api/quries';
+import { getQueryID } from '../../api/quries';
 import { RecipeGroupReadWithIngredientRead, RecipeReadWithRecipeGroups } from '../../api/models';
 import { Spinner } from '@chakra-ui/react';
 import styled from 'styled-components';
@@ -127,7 +127,7 @@ interface IRecipeFetch {
 
 const RecipeFetch: React.FC<IRecipeFetch> = (props) => {
   const jwt = useSelector((state: RootState) => { return state.authentication.jwt; });
-  const { data, isLoading, isError, error } = useQuery<RecipeReadWithRecipeGroups, Error>('recipeEdit', () => getRecipeEditById(props.id, jwt));
+  const { data, isLoading, isError, error } = useQuery<RecipeReadWithRecipeGroups, Error>('recipeEdit', () => getQueryID<RecipeReadWithRecipeGroups>(jwt, 'recipe/all', props.id));
   if (isError) return <>{ error }</>;
   if (isLoading) return <Spinner />;
   return <RecipeViewer recipe={data!}/>;

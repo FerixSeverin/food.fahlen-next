@@ -4,7 +4,7 @@ import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RecipeCreate, RecipeRead } from '../../../api/models';
-import { createRecipe } from '../../../api/quries';
+import { postQuery } from '../../../api/quries';
 import { LoginInput } from '../../../components/form/inputs';
 import { InputLabel } from '../../../components/form/labels';
 import { RootState } from '../../../features/reducer';
@@ -41,7 +41,7 @@ const CreateIndex: React.FC = () => {
     }
   });
 
-  const recipeMutation = useMutation<RecipeRead, unknown, RecipeCreate>(body => createRecipe(body, jwt), {
+  const recipeMutation = useMutation<RecipeRead, unknown, RecipeCreate>(body => postQuery<RecipeCreate, RecipeRead>(jwt, 'recipe', body), {
     onSuccess: (data) => {
       reset({ favorite: false });
       Router.push(`/recipes/${data.id}`);

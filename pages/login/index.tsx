@@ -4,7 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { loginQuery } from '../../api/accountQueries';
+import { postAccountQuery } from '../../api/accountQueries';
 import { AuthFailResponse, AuthSuccessResponse, UserLoginRequest } from '../../api/models';
 // import { AuthContext } from '../../components/state/authProvider';
 import { LoginInput } from '../../components/form/inputs';
@@ -53,7 +53,7 @@ const LoginIndex: React.FC = () => {
   // const [authState, setAuthState] = useContext(AuthContext);
   const { register, handleSubmit, reset } = useForm<UserLoginRequest>();
   const dispatch = useDispatch();
-  const loginMutation = useMutation<AuthSuccessResponse | AuthFailResponse, unknown, UserLoginRequest>(body => loginQuery(body), {
+  const loginMutation = useMutation<AuthSuccessResponse | AuthFailResponse, unknown, UserLoginRequest>(body => postAccountQuery<UserLoginRequest>(body, 'login'), {
     onSuccess: (data) => {
       dispatch(login((data as AuthSuccessResponse).token));
       // setAuthState({ jwt: (data as AuthSuccessResponse).token! });

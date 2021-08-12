@@ -3,7 +3,7 @@ import React from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { RecipeRead } from '../../api/models';
-import { getAllRecipes, recipeDelete } from '../../api/quries';
+import { deleteQueryID, getQuerySimple } from '../../api/quries';
 import { Spinner } from '@chakra-ui/react';
 import {  useSelector } from 'react-redux';
 import { RootState } from '../../features/reducer';
@@ -35,7 +35,7 @@ const Recipe: React.FC<IRecipe> = (props) => {
   const queryClient = useQueryClient();
   const jwt = useSelector((state: RootState) => { return state.authentication.jwt; });
 
-  const deleteRecipeMutation = useMutation<RecipeRead, unknown, number>(id => recipeDelete(id, jwt), {
+  const deleteRecipeMutation = useMutation<RecipeRead, unknown, number>(id => deleteQueryID<RecipeRead>(jwt, 'recipe', id), {
     onSuccess: () => {
       console.log('succeded');
       queryClient.invalidateQueries('recipes');
@@ -63,7 +63,7 @@ const BaseContainer = styled.ul`
 
 const IdCheck: React.FC = () => {
   const auth = useSelector((state: RootState) => { return state.authentication; });
-  const { data, isLoading, isError, error } = useQuery<RecipeRead[], Error>('recipes', () => getAllRecipes(auth.jwt), {
+  const { data, isLoading, isError, error } = useQuery<RecipeRead[], Error>('recipes', () => getQuerySimple(auth.jwt, 'recipe'), {
     enabled: auth.isAuthenticated
   });
 

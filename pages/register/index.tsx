@@ -5,7 +5,7 @@ import { InputLabel } from '../../components/form/labels';
 import { AuthFailResponse, AuthSuccessResponse, UserRegistrationRequest } from '../../api/models';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
-import { registerQuery } from '../../api/accountQueries';
+import { postAccountQuery } from '../../api/accountQueries';
 
 const Container = styled.div`
   display: flex;
@@ -40,14 +40,13 @@ const RegisterIndex: React.FC = () => {
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm<UserRegistrationRequest>();
   const [passwordRepeat, setPasswordRepeat] = useState<string>();
-  const registerMutation = useMutation<AuthSuccessResponse | AuthFailResponse, unknown, UserRegistrationRequest>(body => registerQuery(body), {
+  const registerMutation = useMutation<AuthSuccessResponse | AuthFailResponse, unknown, UserRegistrationRequest>(body => postAccountQuery<UserRegistrationRequest>(body, 'register'), {
     onSuccess: () => {
       queryClient.invalidateQueries('accounts');
       reset({});
       setPasswordRepeat('');
     }
   });
-  //const { data } = useQuery<AccountRead[], Error>('accounts', () => getAllAccounts());
   
   const onSubmit: SubmitHandler<UserRegistrationRequest> = data => {
     registerMutation.mutate(data);

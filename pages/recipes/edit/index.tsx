@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { InstructionCreate, RecipeGroupCreate, RecipeReadWithRecipeGroups } from '../../../api/models';
-import { getRecipeEditById } from '../../../api/quries';
+import { getQueryID } from '../../../api/quries';
 import styled from 'styled-components';
 import RecipeGroup from '../../../components/recipeGroup';
 import { InputLabel } from '../../../components/form/labels';
@@ -206,7 +206,7 @@ interface IRecipeEditor {
 
 const Recipe: React.FC<IRecipeEditor> = ( props ) => {
   const jwt = useSelector((state: RootState) => { return state.authentication.jwt; });
-  const { data, isLoading, isError, error } = useQuery<RecipeReadWithRecipeGroups, Error>('recipeEdit', () => getRecipeEditById(props.id, jwt));
+  const { data, isLoading, isError, error } = useQuery<RecipeReadWithRecipeGroups, Error>('recipeEdit', () => getQueryID<RecipeReadWithRecipeGroups>(jwt, '/recipe/all', props.id));
   
   if (isError) return <>{ error }</>;
   if (isLoading) return <Spinner />;
