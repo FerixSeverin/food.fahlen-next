@@ -14,6 +14,7 @@ declare module 'styled-components' {
       default: string,
       flavour: string,
       dark: string,
+      border_radius: number,
     },
     system: {
       error: string,

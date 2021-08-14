@@ -13,6 +13,7 @@ const lightTheme: DefaultTheme = {
     default: '#BEDCFA',
     flavour: '#F0D9E7',
     dark: '#125D98',
+    border_radius: 5,
   },
   system: {
     error: '#E23E57',
@@ -33,6 +34,7 @@ const darkTheme: DefaultTheme = {
     default: '#BEDCFA',
     flavour: '#F0D9E7',
     dark: '#6E85B2',
+    border_radius: 5,
   },
   system: {
     error: '#E23E57',

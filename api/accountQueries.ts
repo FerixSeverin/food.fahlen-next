@@ -5,12 +5,13 @@ export const postAccountQuery = async <Type>(req: Type, api: string): Promise<Au
   const config: AxiosRequestConfig = {
     method: 'post',
     data: req,
-    url: `https://food.fahlen.dev/api/identity/${api}`,
+    url: `http://api.fahlen.dev/identity/${api}`,
     withCredentials: true
   };
-  const res = await axios(config);
-  if(res.status != 200) {
-    throw new Error(`Failed to ${api}`);
+  try {
+    const res = await axios(config);
+    return res.data;
+  } catch (err) {
+    return err.response.data;
   }
-  return res.data;
 };

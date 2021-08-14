@@ -1,15 +1,16 @@
 import Router from 'next/router';
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { postAccountQuery } from '../../api/accountQueries';
-import { AuthFailResponse, AuthSuccessResponse, UserLoginRequest } from '../../api/models';
+import { postAccountQuery } from '@api/accountQueries';
+import { AuthFailResponse, AuthSuccessResponse, UserLoginRequest } from '@api/models';
+import { Alert } from '@components/alert';
 // import { AuthContext } from '../../components/state/authProvider';
-import { LoginInput } from '../../components/form/inputs';
-import { InputLabel } from '../../components/form/labels';
-import { login } from '../../features/authentication/authenticationReducer';
+import { LoginInput } from '@components/form/inputs';
+import { InputLabel } from '@components/form/labels';
+import { login } from '@features/authentication/authenticationReducer';
 
 const Container = styled.div`
   display: flex;
@@ -20,7 +21,7 @@ const Container = styled.div`
 
   #buttonRow {
     display: flex;
-    margin-top: 10px;
+    margin-top: 20px;
     justify-content: space-between;
   }
 `;
@@ -30,6 +31,7 @@ const LoginButton = styled.input`
   width: 140px;
   height: 40px;
   color: ${props => props.theme.text.light};
+  border-radius: ${props => props.theme.form.border_radius}px;
   font-weight: 600;
   cursor: pointer;
 `;
@@ -37,7 +39,6 @@ const LoginButton = styled.input`
 const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
-  height: 260px;
   width: 300px;
   justify-content: space-around;
   
@@ -51,14 +52,21 @@ const LoginForm = styled.form`
 
 const LoginIndex: React.FC = () => {
   // const [authState, setAuthState] = useContext(AuthContext);
+  const [errors, setErrors] = useState<string[]>([]);
   const { register, handleSubmit, reset } = useForm<UserLoginRequest>();
   const dispatch = useDispatch();
   const loginMutation = useMutation<AuthSuccessResponse | AuthFailResponse, unknown, UserLoginRequest>(body => postAccountQuery<UserLoginRequest>(body, 'login'), {
     onSuccess: (data) => {
-      dispatch(login((data as AuthSuccessResponse).token));
-      // setAuthState({ jwt: (data as AuthSuccessResponse).token! });
-      reset({});
-      Router.push('/recipes/');
+      if ('token' in data) {
+        dispatch(login((data as AuthSuccessResponse).token));
+        // setAuthState({ jwt: (data as AuthSuccessResponse).token! });
+        reset({});
+        Router.push('/recipes/');
+        setErrors([]);
+      } else if ('errors' in data && data.errors != null) {
+        setErrors(data.errors);
+      }
+      
     }
   });
 
@@ -68,6 +76,7 @@ const LoginIndex: React.FC = () => {
 
   return <Container>
     <LoginForm onSubmit={handleSubmit(onSubmit)}>
+      { errors != [] && <Alert errors={errors}/> }
       <div id='welcomeText'>Welcome back.</div>
       <div className='group'>
         <InputLabel>E-mail</InputLabel>

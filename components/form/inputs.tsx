@@ -26,7 +26,7 @@ interface ILoginInput {
 
 const LoginInput = styled.input<ILoginInput>`
   background-color: ${props => props.light ? props.theme.form.default : props.theme.form.flavour};
-  border-radius: 5px;
+  border-radius: ${props => props.theme.form.border_radius}px;
   width: 100%;
   height: 30px;
 

@@ -7,7 +7,7 @@ export const refreshAuthentication = createAsyncThunk(
   async () => {
     const config: AxiosRequestConfig = {
       method: 'post',
-      url: 'https://food.fahlen.dev:5001/api/identity/refresh',
+      url: 'https://api.fahlen.dev/identity/refresh',
       withCredentials: true
     };
     try {
@@ -23,7 +23,7 @@ export const logoutAuthentication = createAsyncThunk(
   async () => {
     const config: AxiosRequestConfig = {
       method: 'post',
-      url: 'https://food.fahlen.dev:5001/api/identity/logout',
+      url: 'https://api.fahlen.dev/identity/logout',
       withCredentials: true
     };
     try {

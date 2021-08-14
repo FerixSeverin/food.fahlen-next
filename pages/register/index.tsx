@@ -32,6 +32,7 @@ const RegisterButton = styled.input`
   width: 140px;
   height: 40px;
   color: ${props => props.theme.text.light};
+  border-radius: ${props => props.theme.form.border_radius}px;
   font-weight: 600;
   cursor: pointer;
 `;
