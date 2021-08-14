@@ -18,7 +18,6 @@ interface IAlert {
 }
 
 export const Alert: React.FC<IAlert> = (props) => {
-  console.log(props.errors);
   return <Container>
     { props.errors?.map((error) => (<li key={error}>{error}</li>))}
   </ Container>;

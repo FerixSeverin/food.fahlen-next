@@ -57,7 +57,7 @@ const LoginIndex: React.FC = () => {
   const dispatch = useDispatch();
   const loginMutation = useMutation<AuthSuccessResponse | AuthFailResponse, unknown, UserLoginRequest>(body => postAccountQuery<UserLoginRequest>(body, 'login'), {
     onSuccess: (data) => {
-      if ('token' in data) {
+      if (data != undefined && 'token' in data) {
         dispatch(login((data as AuthSuccessResponse).token));
         // setAuthState({ jwt: (data as AuthSuccessResponse).token! });
         reset({});
