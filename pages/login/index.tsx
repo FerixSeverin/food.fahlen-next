@@ -66,7 +66,6 @@ const LoginIndex: React.FC = () => {
       } else if ('errors' in data && data.errors != null) {
         setErrors(data.errors);
       }
-      
     }
   });
 

@@ -126,7 +126,7 @@ const Editor: React.FC<IEditor> = (props) => {
   });
 
   const queryClient = useQueryClient();
-  const recipeGroupMutation = useMutation<Response, unknown, RecipeGroupCreate>(body => axios.post('http://localhost:5000/api/recipegroup', body), {
+  const recipeGroupMutation = useMutation<Response, unknown, RecipeGroupCreate>(body => axios.post('https://api.fahlen.dev/recipegroup', body), {
     onSuccess: () => {
       reset({recipeId: props.data.id});
       queryClient.invalidateQueries('recipeEdit');
@@ -135,7 +135,6 @@ const Editor: React.FC<IEditor> = (props) => {
   });
 
   const onSubmit: SubmitHandler<RecipeGroupCreate> = data => {
-    console.log(data);
     recipeGroupMutation.mutate(data);
   };
 
@@ -147,7 +146,7 @@ const Editor: React.FC<IEditor> = (props) => {
     }
   });
 
-  const instructionMutation = useMutation<Response, unknown, InstructionCreate>(body => axios.post('http://localhost:5000/api/instruction', body), {
+  const instructionMutation = useMutation<Response, unknown, InstructionCreate>(body => axios.post('https://api.fahlen.dev/instruction', body), {
     onSuccess: () => {
       instructionReset({recipeId: props.data.id});
       queryClient.invalidateQueries('recipeEdit');
@@ -155,7 +154,6 @@ const Editor: React.FC<IEditor> = (props) => {
   });
 
   const onInstructionSubmit: SubmitHandler<InstructionCreate> = data => {
-    console.log(data);
     instructionMutation.mutate(data);
   };
 

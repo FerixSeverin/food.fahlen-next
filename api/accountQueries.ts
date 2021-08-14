@@ -5,7 +5,7 @@ export const postAccountQuery = async <Type>(req: Type, api: string): Promise<Au
   const config: AxiosRequestConfig = {
     method: 'post',
     data: req,
-    url: `http://api.fahlen.dev/identity/${api}`,
+    url: `https://api.fahlen.dev/identity/${api}`,
     withCredentials: true
   };
   try {

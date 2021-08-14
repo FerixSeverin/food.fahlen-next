@@ -107,7 +107,7 @@ const RecipeGroup: React.FC<Props> = (props) => {
     }
   });
 
-  const ingredientMutation = useMutation<Response, unknown, IngredientCreate>(body => axios.post('http://localhost:5000/api/ingredient', body), {
+  const ingredientMutation = useMutation<Response, unknown, IngredientCreate>(body => axios.post('https://api.fahlen.dev/ingredient', body), {
     onSuccess: () => {
       queryClient.invalidateQueries('recipeGroups');
       queryClient.invalidateQueries('recipeEdit');
@@ -116,18 +116,17 @@ const RecipeGroup: React.FC<Props> = (props) => {
   });
 
   const onSubmit: SubmitHandler<IngredientCreate> = data => {
-    console.log(data);
     ingredientMutation.mutate(data);
   };
 
-  const deleteIngredientMutation = useMutation<Response, unknown, number>(id => axios.delete(`http://localhost:5000/api/ingredient/${id}`), {
+  const deleteIngredientMutation = useMutation<Response, unknown, number>(id => axios.delete(`https://api.fahlen.dev/ingredient/${id}`), {
     onSuccess: () => {
       queryClient.invalidateQueries('recipeGroups');
       queryClient.invalidateQueries('recipeEdit');
     }
   });
 
-  const deleteRecipeGroupMutation = useMutation<Response, unknown, number>(id => axios.delete(`http://localhost:5000/api/recipegroup/${id}`), {
+  const deleteRecipeGroupMutation = useMutation<Response, unknown, number>(id => axios.delete(`https://api.fahlen.dev/recipegroup/${id}`), {
     onSuccess: () => {
       queryClient.invalidateQueries('recipeGroups');
       queryClient.invalidateQueries('recipeEdit');

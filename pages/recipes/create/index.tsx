@@ -49,7 +49,6 @@ const CreateIndex: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<RecipeCreate> = data => {
-    console.log(data);
     recipeMutation.mutate(data);
   };
 

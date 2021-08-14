@@ -32,7 +32,7 @@ interface IRecipeInstruction {
 const RecipeInstruction: React.FC<IRecipeInstruction> = (props) => {
   const queryClient = useQueryClient();
   
-  const deleteInstructionMutation = useMutation<Response, unknown, number>(id => axios.delete(`http://localhost:5000/api/instruction/${id}`), {
+  const deleteInstructionMutation = useMutation<Response, unknown, number>(id => axios.delete(`https://api.fahlen.dev/instruction/${id}`), {
     onSuccess: () => {
       queryClient.invalidateQueries('recipeGroups');
       queryClient.invalidateQueries('recipeEdit');
