@@ -2,7 +2,7 @@ import axios from 'axios';
 import React from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import styled from 'styled-components';
-import { InstructionRead } from '../api/models';
+import { InstructionRead } from '@api/models';
 
 const Container = styled.div`
   display: flex;

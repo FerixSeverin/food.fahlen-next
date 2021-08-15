@@ -29,6 +29,7 @@ const LoginInput = styled.input<ILoginInput>`
   border-radius: ${props => props.theme.form.border_radius}px;
   width: 100%;
   height: 30px;
+  padding-left: 8px;
 
   ::placeholder {
     color: ${props => props.theme.form.dark};

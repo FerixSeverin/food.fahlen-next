@@ -4,5 +4,18 @@
     "javascript": "javascriptreact",
     },
     "emmet.triggerExpansionOnTab": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "colorize.languages": [
+        "css",
+        "sass",
+        "scss",
+        "less",
+        "postcss",
+        "sss",
+        "stylus",
+        "xml",
+        "svg",
+        "typescriptreact",
+        "typescript"
+    ]
 }

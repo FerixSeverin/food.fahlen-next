@@ -16,10 +16,17 @@ const Landing = styled.div`
   .lower {
     display: flex;
     font-size: 30px;
+    margin-top: 10px;
   }
 
   .small {
     color: ${props => props.theme.text.heavy};
+  }
+
+  @media (max-width: ${props => props.theme.headerBreakPoint}px) {
+    .big {
+      font-size: 40px;
+    }
   }
 `;
 
@@ -37,7 +44,7 @@ const Home: React.FC = () => {
   const landingSmallText = 'Join now: ';
   return (
     <Landing>
-      <div>{ landingBigText }</div>
+      <div className='big'>{ landingBigText }</div>
       <div className='lower'>
         <div className='small'>
           { landingSmallText }

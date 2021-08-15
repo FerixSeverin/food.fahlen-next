@@ -3,11 +3,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { RecipeCreate, RecipeRead } from '../../../api/models';
-import { postQuery } from '../../../api/quries';
-import { LoginInput } from '../../../components/form/inputs';
-import { InputLabel } from '../../../components/form/labels';
-import { RootState } from '../../../features/reducer';
+import { RecipeCreate, RecipeRead } from '@api/models';
+import { postQuery } from '@api/quries';
+import { LoginInput } from '@components/form/inputs';
+import { InputLabel } from '@components/form/labels';
+import { RootState } from '@features/reducer';
 import Router from 'next/router';
 
 const Container = styled.div`

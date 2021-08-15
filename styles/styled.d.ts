@@ -14,11 +14,13 @@ declare module 'styled-components' {
       default: string,
       flavour: string,
       dark: string,
+      darkOnPink: string,
       border_radius: number,
     },
     system: {
       error: string,
     },
-    widthBreakPoint: number
+    widthBreakPoint: number,
+    headerBreakPoint: number
   }
 }

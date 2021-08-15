@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios, { AxiosRequestConfig } from 'axios';
-import { AuthLogoutSuccessResponse, AuthSuccessResponse } from '../../api/models';
+import { AuthLogoutSuccessResponse, AuthSuccessResponse } from '@api/models';
 
 export const refreshAuthentication = createAsyncThunk(
   '/authentication/refresh', 

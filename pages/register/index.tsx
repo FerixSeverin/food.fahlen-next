@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { LoginInput } from '../../components/form/inputs';
+import { LoginInput } from '@components/form/inputs';
 import styled from 'styled-components';
-import { InputLabel } from '../../components/form/labels';
-import { AuthFailResponse, AuthSuccessResponse, UserRegistrationRequest } from '../../api/models';
+import { InputLabel } from '@components/form/labels';
+import { AuthFailResponse, AuthSuccessResponse, UserRegistrationRequest } from '@api/models';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
-import { postAccountQuery } from '../../api/accountQueries';
+import { postAccountQuery } from '@api/accountQueries';
+import Router from 'next/router';
 
 const Container = styled.div`
   display: flex;
@@ -46,6 +47,7 @@ const RegisterIndex: React.FC = () => {
       queryClient.invalidateQueries('accounts');
       reset({});
       setPasswordRepeat('');
+      Router.push('/recipes');
     }
   });
   

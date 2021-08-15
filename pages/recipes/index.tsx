@@ -2,11 +2,11 @@ import Link from 'next/link';
 import React from 'react';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import styled from 'styled-components';
-import { RecipeRead } from '../../api/models';
-import { deleteQueryID, getQuerySimple } from '../../api/quries';
+import { RecipeRead } from '@api/models';
+import { deleteQueryID, getQuerySimple } from '@api/quries';
 import { Spinner } from '@chakra-ui/react';
 import {  useSelector } from 'react-redux';
-import { RootState } from '../../features/reducer';
+import { RootState } from '@features/reducer';
 
 const RecipeContainer = styled.div`
   display: flex;

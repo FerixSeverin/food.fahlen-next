@@ -1,12 +1,12 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { getQueryID } from '../../api/quries';
-import { RecipeGroupReadWithIngredientRead, RecipeReadWithRecipeGroups } from '../../api/models';
+import { getQueryID } from '@api/quries';
+import { RecipeGroupReadWithIngredientRead, RecipeReadWithRecipeGroups } from '@api/models';
 import { Spinner } from '@chakra-ui/react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../features/reducer';
+import { RootState } from '@features/reducer';
 
 const GroupContainer = styled.div`
   font-size: 26px;

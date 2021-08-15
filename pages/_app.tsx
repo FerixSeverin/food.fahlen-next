@@ -1,14 +1,14 @@
-import '../styles/globals.css';
+import { GlobalStyle } from 'styles/globalStyles';
 import type { AppProps } from 'next/app';
 import React, { useEffect, useState } from 'react';
-import Head from '../components/head';
+import Head from '@components/head';
 import styled, { ThemeProvider } from 'styled-components';
 import { darkTheme, lightTheme } from '../styles/theme';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChakraProvider } from '@chakra-ui/react';
 import { Provider } from 'react-redux';
-import { store } from '../features/reducer';
-import Header from '../components/header';
+import { store } from '@features/reducer';
+import Header from '@components/header';
 // import { AuthProvider } from '../components/state/authProvider';
 
 const Background = styled.div`
@@ -61,6 +61,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Provider store={store}>
         <ThemeProvider theme={theme === ThemeStyle.Light ? lightTheme : darkTheme}>
+          <GlobalStyle />
           <ChakraProvider>
             <Background>
               <Head />

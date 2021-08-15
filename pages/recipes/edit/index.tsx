@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/dist/client/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { InstructionCreate, RecipeGroupCreate, RecipeReadWithRecipeGroups } from '../../../api/models';
-import { getQueryID } from '../../../api/quries';
+import { InstructionCreate, RecipeGroupCreate, RecipeReadWithRecipeGroups } from '@api/models';
+import { getQueryID } from '@api/quries';
 import styled from 'styled-components';
-import RecipeGroup from '../../../components/recipeGroup';
-import { InputLabel } from '../../../components/form/labels';
-import { BoxInput, SimpleInput } from '../../../components/form/inputs';
+import RecipeGroup from '@components/recipeGroup';
+import { InputLabel } from '@components/form/labels';
+import { BoxInput, SimpleInput } from '@components/form/inputs';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import axios from 'axios';
 import { Spinner } from '@chakra-ui/react';
-import RecipeInstruction from '../../../components/recipeInstruction';
-import { Divider } from '../../../components/divider';
+import RecipeInstruction from '@components/recipeInstruction';
+import { Divider } from '@components/divider';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../../features/reducer';
+import { RootState } from '@features/reducer';
 
 interface IEditor {
   data: RecipeReadWithRecipeGroups
@@ -88,6 +88,7 @@ const NewRecipeInstruction = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  color: ${props => props.theme.text.heavy};
 
   .lower {
     margin-top: 10px;

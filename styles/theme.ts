@@ -13,12 +13,14 @@ const lightTheme: DefaultTheme = {
     default: '#BEDCFA',
     flavour: '#F0D9E7',
     dark: '#125D98',
+    darkOnPink: '#2C2E43',
     border_radius: 5,
   },
   system: {
     error: '#E23E57',
   },
-  widthBreakPoint: 1000
+  widthBreakPoint: 1000,
+  headerBreakPoint: 600
 };
 
 const darkTheme: DefaultTheme = {
@@ -34,12 +36,14 @@ const darkTheme: DefaultTheme = {
     default: '#BEDCFA',
     flavour: '#F0D9E7',
     dark: '#6E85B2',
+    darkOnPink: '#2C2E43',
     border_radius: 5,
   },
   system: {
     error: '#E23E57',
   },
-  widthBreakPoint: 1000
+  widthBreakPoint: 1000,
+  headerBreakPoint: 600
 };
 
 export { lightTheme, darkTheme };

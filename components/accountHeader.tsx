@@ -1,7 +1,7 @@
 import Router from 'next/router';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { logoutAuthentication } from '../features/authentication/authenticationReducer';
+import { logoutAuthentication } from '@features/authentication/authenticationReducer';
 
 const Container = styled.div`
   

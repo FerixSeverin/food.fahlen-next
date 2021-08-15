@@ -16,14 +16,8 @@ export default class MyDocument extends Document {
       const initialProps = await Document.getInitialProps(ctx);
       return {
         ...initialProps,
-        styles: (
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
-        ),
         html: 
-          `<Html>
+          `<Html lang="en">
             <Head>
               <link
                 href='https://fonts.googleapis.com/css?family=Mukta&display=swap'
