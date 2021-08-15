@@ -59,11 +59,13 @@ const LoginIndex: React.FC = () => {
     onSuccess: (data) => {
       if (data != undefined && 'token' in data) {
         dispatch(login((data as AuthSuccessResponse).token));
+        localStorage.setItem('refresh', 'true');
         // setAuthState({ jwt: (data as AuthSuccessResponse).token! });
         reset({});
         Router.push('/recipes/');
         setErrors([]);
       } else if ('errors' in data && data.errors != null) {
+        localStorage.setItem('refresh', 'false');
         setErrors(data.errors);
       }
     }
