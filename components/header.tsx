@@ -137,7 +137,7 @@ const Header: React.FC<IHeader> = (props) => {
         <label id='checkBoxLabel' htmlFor='checkBoxToggle'>Menu</label>
         <div id='content'>
           <Navigation columnDirection/>
-          <AccountHeader columnDirection/>
+          { isAuthenticated && <AccountHeader columnDirection/> }
           <ThemeSwitch onClick={themeToggler}>{props.theme === ThemeStyle.Light ? '🌚' : '🌝' }</ThemeSwitch>
         </div>
         
