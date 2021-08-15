@@ -28,7 +28,6 @@ export const logoutAuthentication = createAsyncThunk(
     };
     try {
       const res = await axios(config);
-      console.log(res.data);
       return (res.data as AuthLogoutSuccessResponse);
     } catch (error) {
       throw console.error('Failed to logout');

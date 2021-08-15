@@ -41,7 +41,7 @@ const Navigation: React.FC<INavigation> = (props) => {
   
 
   useEffect(() => {
-    if (localStorage.getItem('refresh')) {
+    if (localStorage.getItem('refresh') === 'true') {
       dispatch(refreshAuthentication());
     }
   }, []);
