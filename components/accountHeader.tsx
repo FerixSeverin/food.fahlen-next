@@ -3,15 +3,22 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { logoutAuthentication } from '@features/authentication/authenticationReducer';
 
-const Container = styled.div`
-  
+interface IContainer {
+  columnDirection?: boolean
+}
+
+const Container = styled.div<IContainer>`
   color: ${props => props.theme.text.light};
-  padding: 0 10px 0;
+  padding: ${props => props.columnDirection ? '0' : '0 10px 0'};
   display: flex;
   align-self: flex-end;
+  flex-direction: ${props => props.columnDirection ? 'column' : 'row'};
 
   #settings {
-    margin-right: 20px;
+    margin-right: ${props => props.columnDirection ? '0' : '20px'};
+    align-self: ${props => props.columnDirection ? 'flex-end' : 'auto'};
+    margin-bottom: ${props => props.columnDirection ? '10px' : '0'};;
+
   }
 
   #logout {
@@ -20,11 +27,15 @@ const Container = styled.div`
   }
 `;
 
-export const AccountHeader: React.FC = () => {
+interface IAccountHeader {
+  columnDirection?: boolean
+}
+
+export const AccountHeader: React.FC<IAccountHeader> = (props) => {
   const dispatch = useDispatch();
   //const jwt = useSelector((state: RootState) => { return state.authentication.jwt; });
   
-  return <Container>
+  return <Container columnDirection={props.columnDirection}>
     <button id='settings' onClick={() =>  Router.push('/account')}>⚙️</button>
     <button id='logout' onClick={() => {
       dispatch(logoutAuthentication());

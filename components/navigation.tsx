@@ -35,7 +35,6 @@ interface INavigation {
 }
 
 const Navigation: React.FC<INavigation> = (props) => {
-  console.log(props.columnDirection);
   // const [authState] = useContext(AuthContext);
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
