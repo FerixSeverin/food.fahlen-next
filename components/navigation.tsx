@@ -44,7 +44,7 @@ const Navigation: React.FC<INavigation> = (props) => {
     if (localStorage.getItem('refresh')) {
       dispatch(refreshAuthentication());
     }
-  });
+  }, []);
 
   const isAuthenticated = useSelector(((state: RootState) => { return state.authentication.isAuthenticated; }));
   
