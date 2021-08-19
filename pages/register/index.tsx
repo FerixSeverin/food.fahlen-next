@@ -4,9 +4,12 @@ import styled from 'styled-components';
 import { InputLabel } from '@components/form/labels';
 import { AuthFailResponse, AuthSuccessResponse, UserRegistrationRequest } from '@api/models';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 import { postAccountQuery } from '@api/accountQueries';
 import Router from 'next/router';
+import { Alert } from '@components/alert';
+import { useDispatch } from 'react-redux';
+import { login } from '@features/authentication/authenticationReducer';
 
 const Container = styled.div`
   display: flex;
@@ -39,15 +42,23 @@ const RegisterButton = styled.input`
 `;
 
 const RegisterIndex: React.FC = () => {
-  const queryClient = useQueryClient();
+  const [errors, setErrors] = useState<string[]>([]);
   const { register, handleSubmit, reset } = useForm<UserRegistrationRequest>();
   const [passwordRepeat, setPasswordRepeat] = useState<string>();
+  const dispatch = useDispatch();
   const registerMutation = useMutation<AuthSuccessResponse | AuthFailResponse, unknown, UserRegistrationRequest>(body => postAccountQuery<UserRegistrationRequest>(body, 'register'), {
-    onSuccess: () => {
-      queryClient.invalidateQueries('accounts');
-      reset({});
-      setPasswordRepeat('');
-      Router.push('/recipes');
+    onSuccess: (data) => {
+      if (data != undefined && 'token' in data) {
+        dispatch(login((data as AuthSuccessResponse).token));
+        localStorage.setItem('refresh', 'true');
+        reset({});
+        Router.push('/recipes');
+        setErrors([]);
+        setPasswordRepeat('');
+      } else if ('errors' in data && data.errors != null) {
+        localStorage.setItem('refresh', 'false');
+        setErrors(data.errors);
+      }
     }
   });
   
@@ -57,6 +68,7 @@ const RegisterIndex: React.FC = () => {
 
   return <Container>
     <RegisterForm id='registerForm' onSubmit={handleSubmit(onSubmit)}>
+      { errors != [] && <Alert errors={errors}/> }
       <div className='group'>
         <InputLabel>E-mail</InputLabel>
         <LoginInput light type='email' {...register('email')} />
