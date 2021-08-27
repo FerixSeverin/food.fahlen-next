@@ -17,5 +17,6 @@
         "svg",
         "typescriptreact",
         "typescript"
-    ]
+    ],
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }
